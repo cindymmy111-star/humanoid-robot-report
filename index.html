@@ -17,6 +17,8 @@
     --accent-2-soft:#dbe6f0;
     --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
     --grid-line:#e1e0d9;
+    --switch-bg:#14171c;
+    --switch-fg:#b9bcc2;
     --shadow:0 1px 2px rgba(20,23,28,0.06), 0 8px 24px -12px rgba(20,23,28,0.18);
     color-scheme:light;
   }
@@ -29,6 +31,7 @@
       --accent-2:#7fa8d6; --accent-2-soft:#1e2c3a;
       --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
       --grid-line:#2c2f34;
+      --switch-bg:#2a2d33; --switch-fg:#9aa0aa;
       --shadow:0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
       color-scheme:dark;
     }
@@ -41,6 +44,7 @@
     --accent-2:#7fa8d6; --accent-2-soft:#1e2c3a;
     --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
     --grid-line:#2c2f34;
+    --switch-bg:#2a2d33; --switch-fg:#9aa0aa;
     --shadow:0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
     color-scheme:dark;
   }
@@ -53,6 +57,9 @@
     line-height:1.7;
     -webkit-font-smoothing:antialiased;
   }
+  .doc[data-lang="en"] .zh{display:none;}
+  .doc[data-lang="zh"] .en{display:none;}
+  .doc[data-lang="en"] .lang-en-serif{font-family:"Noto Serif","Georgia",serif;}
   h1,h2,h3,.serif{
     font-family:"Noto Serif SC","Noto Serif",Georgia,serif;
     text-wrap:balance;
@@ -88,7 +95,7 @@
   }
   .topbar-inner{
     max-width:960px;margin:0 auto;padding:12px 24px;
-    display:flex;align-items:center;gap:24px;
+    display:flex;align-items:center;gap:16px;
     overflow-x:auto;
   }
   .topbar-brand{
@@ -103,6 +110,14 @@
     padding:6px 10px;border-radius:6px;font-weight:500;
   }
   .topbar-nav a:hover{background:var(--line);color:var(--ink);}
+  .lang-switch{display:flex;align-items:center;background:var(--switch-bg);border-radius:999px;padding:3px;gap:2px;margin-left:auto;flex:none;}
+  .lang-switch button{
+    border:none;background:transparent;color:var(--switch-fg);font-family:"IBM Plex Mono",monospace;
+    font-size:0.72rem;font-weight:700;padding:6px 13px;border-radius:999px;cursor:pointer;
+    letter-spacing:0.03em;transition:background 0.15s,color 0.15s;
+  }
+  .lang-switch button.active{background:var(--accent);color:#fff;}
+  .lang-switch button:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;}
 
   /* ---- header ---- */
   .hero{max-width:960px;margin:0 auto;padding:56px 24px 40px;}
@@ -146,7 +161,7 @@
   .feed-head h4{margin:0;font-size:0.95rem;font-family:"Noto Sans SC",sans-serif;font-weight:700;}
   .feed-tag{font-size:0.68rem;padding:2px 8px;border-radius:99px;background:var(--accent-2-soft);color:var(--accent-2);font-weight:600;}
   .feed-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
-  .feed-list li{display:flex;gap:12px;align-items:baseline;font-size:0.86rem;padding-bottom:10px;border-bottom:1px solid var(--line);}
+  .feed-list li{display:flex;gap:12px;align-items:baseline;font-size:0.86rem;padding-bottom:10px;border-bottom:1px solid var(--line);flex-wrap:wrap;}
   .feed-list li:last-child{border-bottom:none;padding-bottom:0;}
   .feed-date{font-family:"IBM Plex Mono",monospace;font-size:0.74rem;color:var(--accent);font-weight:600;flex:none;width:3.6em;}
   .feed-text{color:var(--ink-soft);flex:1;}
@@ -273,26 +288,30 @@
   }
 </style>
 
-<div class="doc">
+<div class="doc" data-lang="zh">
 
   <div class="topbar">
     <div class="topbar-inner">
-      <div class="topbar-brand"><span class="dot"></span>人形机器人产业透视</div>
+      <div class="topbar-brand"><span class="dot"></span><span class="zh">人形机器人产业透视</span><span class="en" hidden>Humanoid Robotics Industry Report</span></div>
       <nav class="topbar-nav">
-        <a href="#s1">规模</a>
-        <a href="#s2">企业</a>
-        <a href="#s3">技术</a>
-        <a href="#s4">资本</a>
+        <a href="#s1"><span class="zh">规模</span><span class="en" hidden>Market</span></a>
+        <a href="#s2"><span class="zh">企业</span><span class="en" hidden>Players</span></a>
+        <a href="#s3"><span class="zh">技术</span><span class="en" hidden>Tech</span></a>
+        <a href="#s4"><span class="zh">资本</span><span class="en" hidden>Capital</span></a>
       </nav>
+      <div class="lang-switch" role="group" aria-label="Language / 语言">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="zh" class="active">中文</button>
+      </div>
     </div>
   </div>
 
   <header class="hero">
     <div class="hero-top">
       <div>
-        <p class="eyebrow">行业研究简报 · Embodied AI &amp; Humanoid Robotics</p>
-        <h1 class="title">人形机器人产业透视</h1>
-        <p class="subtitle">从量产元年到商业化拐点:市场规模、竞争格局、核心零部件与资本市场的一次系统梳理。</p>
+        <p class="eyebrow"><span class="zh">行业研究简报 · Embodied AI &amp; Humanoid Robotics</span><span class="en" hidden>Industry Briefing · Embodied AI &amp; Humanoid Robotics</span></p>
+        <h1 class="title"><span class="zh">人形机器人产业透视</span><span class="en" hidden>Humanoid Robotics: An Industry X-Ray</span></h1>
+        <p class="subtitle"><span class="zh">从量产元年到商业化拐点:市场规模、竞争格局、核心零部件与资本市场的一次系统梳理。</span><span class="en" hidden>From the first year of mass production to the commercialization inflection point: a systematic look at market sizing, the competitive landscape, core components, and capital markets.</span></p>
       </div>
       <svg class="rig" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <rect x="20" y="128" width="40" height="10" rx="2" stroke="var(--ink-soft)" stroke-width="2"/>
@@ -310,34 +329,34 @@
       </svg>
     </div>
     <div class="meta-row">
-      <span>资料整理日期 <b>2026年9月8日</b></span>
-      <span>覆盖周期 <b>2025 – 2026年8月</b></span>
-      <span>覆盖范围 <b>中国 · 美国 · 全球</b></span>
-      <span>性质 <b>行业研究素材,非投资建议</b></span>
+      <span class="zh">资料整理日期 <b>2026年9月8日</b></span><span class="en" hidden>Compiled <b>Sep 8, 2026</b></span>
+      <span class="zh">覆盖周期 <b>2025 – 2026年8月</b></span><span class="en" hidden>Coverage <b>2025 – Aug 2026</b></span>
+      <span class="zh">覆盖范围 <b>中国 · 美国 · 全球</b></span><span class="en" hidden>Scope <b>China · US · Global</b></span>
+      <span class="zh">性质 <b>行业研究素材,非投资建议</b></span><span class="en" hidden>Nature <b>Research material, not investment advice</b></span>
     </div>
-    <p class="howto">↗ 蓝色小标记均可点击,直达对应数据的原始报道或官方文件</p>
+    <p class="howto"><span class="zh">↗ 蓝色小标记均可点击,直达对应数据的原始报道或官方文件</span><span class="en" hidden>↗ Every small blue marker is clickable and links directly to the original report or official filing</span></p>
   </header>
 
   <div class="stats">
     <div class="stat-grid">
       <div class="stat">
-        <p class="stat-label">2025年全球出货量</p>
-        <div class="stat-value">1.24<small>万台</small></div>
-        <p class="stat-src"><a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener">GGII高工产业研究院 ↗</a></p>
+        <p class="stat-label"><span class="zh">2025年全球出货量</span><span class="en" hidden>2025 Global Shipments</span></p>
+        <div class="stat-value"><span class="zh">1.24<small>万台</small></span><span class="en" hidden>12,400<small> units</small></span></div>
+        <p class="stat-src"><a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener"><span class="zh">GGII高工产业研究院 ↗</span><span class="en" hidden>GGII Research ↗</span></a></p>
       </div>
       <div class="stat">
-        <p class="stat-label">2030年中国市场规模预测</p>
-        <div class="stat-value">8,700<small>亿元</small></div>
-        <p class="stat-src"><a href="http://www.news.cn/20250330/202e43820201420696d11af858aff2fa/c.html" target="_blank" rel="noopener">中国电子学会 ↗</a></p>
+        <p class="stat-label"><span class="zh">2030年中国市场规模预测</span><span class="en" hidden>2030E China Market Size</span></p>
+        <div class="stat-value"><span class="zh">8,700<small>亿元</small></span><span class="en" hidden>¥870<small>B RMB</small></span></div>
+        <p class="stat-src"><a href="http://www.news.cn/20250330/202e43820201420696d11af858aff2fa/c.html" target="_blank" rel="noopener"><span class="zh">中国电子学会 ↗</span><span class="en" hidden>China Electronics Society ↗</span></a></p>
       </div>
       <div class="stat">
-        <p class="stat-label">宇树科技科创板募资</p>
-        <div class="stat-value">42.02<small>亿元</small></div>
-        <p class="stat-src"><a href="https://finance.sina.com.cn/wm/2026-07-06/doc-inifwmvs1837058.shtml" target="_blank" rel="noopener">"A股人形机器人第一股" ↗</a></p>
+        <p class="stat-label"><span class="zh">宇树科技科创板募资</span><span class="en" hidden>Unitree's STAR Market IPO</span></p>
+        <div class="stat-value"><span class="zh">42.02<small>亿元</small></span><span class="en" hidden>¥4.2<small>B RMB</small></span></div>
+        <p class="stat-src"><a href="https://finance.sina.com.cn/wm/2026-07-06/doc-inifwmvs1837058.shtml" target="_blank" rel="noopener"><span class="zh">"A股人形机器人第一股" ↗</span><span class="en" hidden>China's first listed humanoid-robot maker ↗</span></a></p>
       </div>
       <div class="stat">
-        <p class="stat-label">2026年全球赛道融资额</p>
-        <div class="stat-value">86<small>亿美元</small></div>
+        <p class="stat-label"><span class="zh">2026年全球赛道融资额</span><span class="en" hidden>2026 Global Sector Funding</span></p>
+        <div class="stat-value"><span class="zh">86<small>亿美元</small></span><span class="en" hidden>$8.6<small>B USD</small></span></div>
         <p class="stat-src"><a href="https://valueaddvc.com/pulse/robotics-humanoid-funding-23-billion-2026" target="_blank" rel="noopener">Value Add VC Pulse ↗</a></p>
       </div>
     </div>
@@ -345,42 +364,48 @@
 
   <div class="feed">
     <div class="feed-card">
-      <div class="feed-head"><h4>最新动态</h4><span class="feed-tag">每日自动更新</span></div>
+      <div class="feed-head"><h4><span class="zh">最新动态</span><span class="en" hidden>Latest Updates</span></h4><span class="feed-tag"><span class="zh">每日自动更新</span><span class="en" hidden>Auto-updated daily</span></span></div>
       <ul class="feed-list" id="feed-list">
-        <li><span class="feed-date mono">09.08</span><span class="feed-text">宇树发布UnifoLM-X2世界模型,机器人实现首次完全自主格斗对抗。</span><a class="tl-src" href="https://x.com/UnitreeRobotics/status/2096932273602048258" target="_blank" rel="noopener">宇树官方↗</a></li>
-        <li><span class="feed-date mono">09.08</span><span class="feed-text">三星据报将于2027年CES首发自研人形机器人原型机。</span><a class="tl-src" href="https://en.sedaily.com/finance/2026/09/07/samsung-to-unveil-first-humanoid-robot-at-ces-2027" target="_blank" rel="noopener">Seoul Economic Daily↗</a></li>
-        <li><span class="feed-date mono">09.08</span><span class="feed-text">宇树科技8月19日科创板上市后交投活跃,市场持续关注其后续产能爬坡节奏。</span><a class="tl-src" href="https://finance.sina.com.cn/wm/2026-07-06/doc-inifwmvs1837058.shtml" target="_blank" rel="noopener">新浪财经↗</a></li>
-        <li><span class="feed-date mono">09.08</span><span class="feed-text">优必选U1系列定于9月16日启动首批交付,为预售超1.3万台订单的兑现关键节点。</span><a class="tl-src" href="http://www.xinhuanet.com/tech/20260701/3c549b1ded2e47a4894e5b982b8ebc09/c.html" target="_blank" rel="noopener">新华网↗</a></li>
+        <li><span class="feed-date mono">09.08</span><span class="feed-text"><span class="zh">宇树发布UnifoLM-X2世界模型,机器人实现首次完全自主格斗对抗。</span><span class="en" hidden>Unitree unveiled its UnifoLM-X2 world model, enabling robots' first fully autonomous combat sparring.</span></span><a class="tl-src" href="https://x.com/UnitreeRobotics/status/2096932273602048258" target="_blank" rel="noopener"><span class="zh">宇树官方↗</span><span class="en" hidden>Unitree (official)↗</span></a></li>
+        <li><span class="feed-date mono">09.08</span><span class="feed-text"><span class="zh">三星据报将于2027年CES首发自研人形机器人原型机。</span><span class="en" hidden>Samsung is reportedly set to unveil its first self-developed humanoid prototype at CES 2027.</span></span><a class="tl-src" href="https://en.sedaily.com/finance/2026/09/07/samsung-to-unveil-first-humanoid-robot-at-ces-2027" target="_blank" rel="noopener">Seoul Economic Daily↗</a></li>
+        <li><span class="feed-date mono">09.08</span><span class="feed-text"><span class="zh">宇树科技8月19日科创板上市后交投活跃,市场持续关注其后续产能爬坡节奏。</span><span class="en" hidden>Trading has stayed active in Unitree since its Aug 19 STAR Market debut, with the market watching its production ramp closely.</span></span><a class="tl-src" href="https://finance.sina.com.cn/wm/2026-07-06/doc-inifwmvs1837058.shtml" target="_blank" rel="noopener"><span class="zh">新浪财经↗</span><span class="en" hidden>Sina Finance↗</span></a></li>
+        <li><span class="feed-date mono">09.08</span><span class="feed-text"><span class="zh">优必选U1系列定于9月16日启动首批交付,为预售超1.3万台订单的兑现关键节点。</span><span class="en" hidden>UBTech's U1 series begins its first deliveries on Sep 16 — the key milestone for converting 13,000+ pre-orders into revenue.</span></span><a class="tl-src" href="http://www.xinhuanet.com/tech/20260701/3c549b1ded2e47a4894e5b982b8ebc09/c.html" target="_blank" rel="noopener"><span class="zh">新华网↗</span><span class="en" hidden>Xinhua↗</span></a></li>
       </ul>
-      <p class="feed-note">此板块由每日定时任务自动追加当天新增的行业动态一句话摘要,仅作为快讯补充;完整分析与已核实数据仍以下方四个章节为准。</p>
+      <p class="feed-note"><span class="zh">此板块由每日定时任务自动追加当天新增的行业动态一句话摘要,仅作为快讯补充;完整分析与已核实数据仍以下方四个章节为准。</span><span class="en" hidden>This section is auto-appended daily by a scheduled task with one-line summaries of same-day developments; it supplements, but doesn't replace, the verified analysis in the four sections below. New daily entries may appear in Chinese only until translated.</span></p>
     </div>
   </div>
 
   <!-- ================= SECTION 1 ================= -->
   <section class="chapter" id="s1">
-    <div class="chapter-head"><span class="chapter-num">01</span><h2>行业概况与市场规模</h2></div>
-    <p class="chapter-intro">各家机构测算口径不一、数量级差异明显,但方向一致:2025–2026年是出货量与价格的拐点,2030年前后进入规模化阶段。</p>
+    <div class="chapter-head"><span class="chapter-num">01</span><h2><span class="zh">行业概况与市场规模</span><span class="en" hidden>Market Overview &amp; Sizing</span></h2></div>
+    <p class="chapter-intro"><span class="zh">各家机构测算口径不一、数量级差异明显,但方向一致:2025–2026年是出货量与价格的拐点,2030年前后进入规模化阶段。</span><span class="en" hidden>Estimates vary widely by methodology and order of magnitude, but the direction is consistent: 2025–2026 marks the inflection point for shipments and pricing, with scale-up arriving around 2030.</span></p>
 
-    <h3 class="sub">机构预测对照</h3>
+    <h3 class="sub"><span class="zh">机构预测对照</span><span class="en" hidden>Forecasts by Institution</span></h3>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>机构</th><th>口径</th><th>关键数字</th><th>时间点</th><th>来源</th></tr></thead>
+        <thead><tr>
+          <th><span class="zh">机构</span><span class="en" hidden>Institution</span></th>
+          <th><span class="zh">口径</span><span class="en" hidden>Metric</span></th>
+          <th><span class="zh">关键数字</span><span class="en" hidden>Key Figures</span></th>
+          <th><span class="zh">时间点</span><span class="en" hidden>Horizon</span></th>
+          <th><span class="zh">来源</span><span class="en" hidden>Source</span></th>
+        </tr></thead>
         <tbody>
-          <tr><td>高盛</td><td>全球出货量</td><td class="num">2万台 → 140万台</td><td class="num">2025 → 2035</td><td class="src-cell"><a href="https://www.cls.cn/detail/2418480" target="_blank" rel="noopener">财联社↗</a></td></tr>
-          <tr><td>麦格理(Macquarie)</td><td>全球出货量</td><td class="num">5万台 → 110万台</td><td class="num">2026 → 2031</td><td class="src-cell"><a href="https://www.cls.cn/detail/2223946" target="_blank" rel="noopener">财联社↗</a></td></tr>
-          <tr><td>摩根士丹利</td><td>中国市场规模</td><td class="num">约150亿美元</td><td class="num">2030年,交付44.6万台</td><td class="src-cell"><a href="https://finance.sina.com.cn/stock/usstock/c/2026-06-24/doc-inienxzy3047124.shtml" target="_blank" rel="noopener">新浪财经↗</a></td></tr>
-          <tr><td>GGII高工产业研究院</td><td>全球市场规模</td><td class="num">63.39亿元 → 超4,000亿元</td><td class="num">2025 → 2035</td><td class="src-cell"><a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener">新浪财经↗</a></td></tr>
-          <tr><td>中国电子学会</td><td>中国市场规模</td><td class="num">约8,700亿元</td><td class="num">2030</td><td class="src-cell"><a href="http://www.news.cn/20250330/202e43820201420696d11af858aff2fa/c.html" target="_blank" rel="noopener">新华网↗</a></td></tr>
-          <tr><td>中国信通院</td><td>中国在用台数 / 市场规模</td><td class="num">超1亿台 / 约10万亿元级</td><td class="num">2045年后</td><td class="src-cell"><a href="http://www.news.cn/fortune/20250322/cd16ad9fd1554c9fb7b5fe1bd5ecade4/c.html" target="_blank" rel="noopener">新华网↗</a></td></tr>
-          <tr><td>MarketsandMarkets</td><td>全球市场规模</td><td class="num">约54.1亿美元</td><td class="num">2026</td><td class="src-cell"><a href="https://www.marketsandmarkets.com/PressReleases/humanoid-robot.asp" target="_blank" rel="noopener">官方新闻稿↗</a></td></tr>
+          <tr><td><span class="zh">高盛</span><span class="en" hidden>Goldman Sachs</span></td><td><span class="zh">全球出货量</span><span class="en" hidden>Global shipments</span></td><td class="num"><span class="zh">2万台 → 140万台</span><span class="en" hidden>20K → 1.4M units</span></td><td class="num">2025 → 2035</td><td class="src-cell"><a href="https://www.cls.cn/detail/2418480" target="_blank" rel="noopener"><span class="zh">财联社↗</span><span class="en" hidden>Cailian Press↗</span></a></td></tr>
+          <tr><td>Macquarie</td><td><span class="zh">全球出货量</span><span class="en" hidden>Global shipments</span></td><td class="num"><span class="zh">5万台 → 110万台</span><span class="en" hidden>50K → 1.1M units</span></td><td class="num">2026 → 2031</td><td class="src-cell"><a href="https://www.cls.cn/detail/2223946" target="_blank" rel="noopener"><span class="zh">财联社↗</span><span class="en" hidden>Cailian Press↗</span></a></td></tr>
+          <tr><td>Morgan Stanley</td><td><span class="zh">中国市场规模</span><span class="en" hidden>China market size</span></td><td class="num"><span class="zh">约150亿美元</span><span class="en" hidden>~$15B</span></td><td class="num"><span class="zh">2030年,交付44.6万台</span><span class="en" hidden>2030, 446K units</span></td><td class="src-cell"><a href="https://finance.sina.com.cn/stock/usstock/c/2026-06-24/doc-inienxzy3047124.shtml" target="_blank" rel="noopener"><span class="zh">新浪财经↗</span><span class="en" hidden>Sina Finance↗</span></a></td></tr>
+          <tr><td>GGII</td><td><span class="zh">全球市场规模</span><span class="en" hidden>Global market size</span></td><td class="num"><span class="zh">63.39亿元 → 超4,000亿元</span><span class="en" hidden>¥6.3B → ¥400B+</span></td><td class="num">2025 → 2035</td><td class="src-cell"><a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener"><span class="zh">新浪财经↗</span><span class="en" hidden>Sina Finance↗</span></a></td></tr>
+          <tr><td><span class="zh">中国电子学会</span><span class="en" hidden>China Electronics Society</span></td><td><span class="zh">中国市场规模</span><span class="en" hidden>China market size</span></td><td class="num"><span class="zh">约8,700亿元</span><span class="en" hidden>~¥870B</span></td><td class="num">2030</td><td class="src-cell"><a href="http://www.news.cn/20250330/202e43820201420696d11af858aff2fa/c.html" target="_blank" rel="noopener"><span class="zh">新华网↗</span><span class="en" hidden>Xinhua↗</span></a></td></tr>
+          <tr><td><span class="zh">中国信通院</span><span class="en" hidden>CAICT</span></td><td><span class="zh">中国在用台数 / 市场规模</span><span class="en" hidden>China install base / market size</span></td><td class="num"><span class="zh">超1亿台 / 约10万亿元级</span><span class="en" hidden>100M+ units / ~¥10T</span></td><td class="num"><span class="zh">2045年后</span><span class="en" hidden>Post-2045</span></td><td class="src-cell"><a href="http://www.news.cn/fortune/20250322/cd16ad9fd1554c9fb7b5fe1bd5ecade4/c.html" target="_blank" rel="noopener"><span class="zh">新华网↗</span><span class="en" hidden>Xinhua↗</span></a></td></tr>
+          <tr><td>MarketsandMarkets</td><td><span class="zh">全球市场规模</span><span class="en" hidden>Global market size</span></td><td class="num"><span class="zh">约54.1亿美元</span><span class="en" hidden>~$5.41B</span></td><td class="num">2026</td><td class="src-cell"><a href="https://www.marketsandmarkets.com/PressReleases/humanoid-robot.asp" target="_blank" rel="noopener"><span class="zh">官方新闻稿↗</span><span class="en" hidden>Press release↗</span></a></td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="chart-card" style="margin-top:24px;">
-      <h4>全球市场规模成长曲线</h4>
-      <p class="chart-sub">GGII 口径,单位:亿元人民币</p>
-      <svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="2025年63.39亿元,2030年超640亿元,2035年超4000亿元">
+      <h4><span class="zh">全球市场规模成长曲线</span><span class="en" hidden>Global Market Size Growth</span></h4>
+      <p class="chart-sub"><span class="zh">GGII 口径,单位:亿元人民币</span><span class="en" hidden>GGII basis, RMB</span></p>
+      <svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="2025: RMB 6.3B, 2030: RMB 64B+, 2035: RMB 400B+">
         <line x1="95" y1="31.4" x2="600" y2="31.4" stroke="var(--grid-line)" stroke-width="1"/>
         <line x1="95" y1="88.6" x2="600" y2="88.6" stroke="var(--grid-line)" stroke-width="1"/>
         <line x1="95" y1="145.7" x2="600" y2="145.7" stroke="var(--grid-line)" stroke-width="1"/>
@@ -393,137 +418,146 @@
         <text x="85" y="264" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">0</text>
 
         <rect x="105" y="256.4" width="110" height="3.6" rx="2" fill="var(--s1)" opacity="0.55"/>
-        <text x="160" y="245" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">63.39亿元</text>
+        <text class="zh" x="160" y="245" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">63.39亿元</text>
+        <text class="en" hidden x="160" y="245" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">RMB 6.3B</text>
         <text x="160" y="280" text-anchor="middle" font-size="12" fill="var(--ink-soft)">2025</text>
 
         <rect x="265" y="223.4" width="110" height="36.6" rx="3" fill="var(--s1)" opacity="0.75"/>
-        <text x="320" y="212" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">640+亿元</text>
+        <text class="zh" x="320" y="212" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">640+亿元</text>
+        <text class="en" hidden x="320" y="212" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">RMB 64B+</text>
         <text x="320" y="280" text-anchor="middle" font-size="12" fill="var(--ink-soft)">2030</text>
 
         <rect x="425" y="31.4" width="110" height="228.6" rx="4" fill="var(--s1)"/>
-        <text x="480" y="20" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">4000+亿元</text>
+        <text class="zh" x="480" y="20" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">4000+亿元</text>
+        <text class="en" hidden x="480" y="20" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">RMB 400B+</text>
         <text x="480" y="280" text-anchor="middle" font-size="12" fill="var(--ink-soft)">2035</text>
       </svg>
-      <p class="chart-src">数据来源:高工产业研究院(GGII)《2025年人形机器人产业发展蓝皮书》,2030/2035年数值为区间下限。<a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener">查看原文 ↗</a></p>
+      <p class="chart-src"><span class="zh">数据来源:高工产业研究院(GGII)《2025年人形机器人产业发展蓝皮书》,2030/2035年数值为区间下限。</span><span class="en" hidden>Source: GGII, "2025 Humanoid Robot Industry Blue Paper." 2030/2035 figures are lower-bound estimates.</span><a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener"><span class="zh">查看原文 ↗</span><span class="en" hidden>View source ↗</span></a></p>
     </div>
 
-    <h3 class="sub">政策与产业阶段</h3>
+    <h3 class="sub"><span class="zh">政策与产业阶段</span><span class="en" hidden>Policy &amp; Industry Stage</span></h3>
     <ul class="timeline">
-      <li><span class="tl-date mono">2025年12月</span><div class="tl-body"><b>工信部等八部门"AI+制造"专项行动<a class="tl-src" href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_01010414608a4226b30687773bb21bdf.html" target="_blank" rel="noopener">工信部官网↗</a></b><span>提出建设人形机器人中试基地、打造标杆产线。</span></div></li>
-      <li><span class="tl-date mono">2026年2月</span><div class="tl-body"><b>《人形机器人与具身智能标准体系(2026版)》正式发布<a class="tl-src" href="https://www.news.cn/20260228/c27e2dfdb0f4496494c7e4991f2e8c2f/c.html" target="_blank" rel="noopener">新华网↗</a></b><span>工信部人形机器人与具身智能标准化技术委员会发布;同期"十五五"规划建议将具身智能纳入未来产业体系<a class="tl-src" href="https://www.news.cn/20251119/e9cb9ce2aa934d4287ccf42231e79803/c.html" target="_blank" rel="noopener">相关报道↗</a>。</span></div></li>
-      <li><span class="tl-date mono">2026年6月</span><div class="tl-body"><b>工信部、国资委联合通知<a class="tl-src" href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_f291ccd3da4c47ce95741de63cc088e6.html" target="_blank" rel="noopener">工信部官网↗</a></b><span>明确到2026年底重点场景实现应用验证和常态部署,形成万台级落地能力。</span></div></li>
-      <li><span class="tl-date mono">2026年5月</span><div class="tl-body"><b>特斯拉Optimus小批量正式采购(PPA)</b><span>从送样验证阶段进入小批量正式采购。</span><span class="tl-tag">企业动态</span></div></li>
-      <li><span class="tl-date mono">2026年7–8月</span><div class="tl-body"><b>Optimus V3 弗里蒙特工厂投产</b><span>年内目标产量5万台。</span><span class="tl-tag">企业动态</span></div></li>
-      <li><span class="tl-date mono">2026年8月</span><div class="tl-body"><b>宇树科技启动询价申购<a class="tl-src" href="https://finance.sina.com.cn/wm/2026-05-26/doc-inhzevau9083919.shtml" target="_blank" rel="noopener">新浪财经↗</a></b><span>拟募资约42亿元、估值约420亿元,冲刺科创板"人形机器人第一股"。</span><span class="tl-tag">资本市场</span></div></li>
+      <li><span class="tl-date mono"><span class="zh">2025年12月</span><span class="en" hidden>Dec 2025</span></span><div class="tl-body"><b><span class="zh">工信部等八部门"AI+制造"专项行动</span><span class="en" hidden>MIIT and 7 other ministries launch "AI+Manufacturing" initiative</span><a class="tl-src" href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_01010414608a4226b30687773bb21bdf.html" target="_blank" rel="noopener"><span class="zh">工信部官网↗</span><span class="en" hidden>MIIT↗</span></a></b><span class="zh">提出建设人形机器人中试基地、打造标杆产线。</span><span class="en" hidden>Calls for pilot-scale testing bases and benchmark production lines for humanoid robots.</span></div></li>
+      <li><span class="tl-date mono"><span class="zh">2026年2月</span><span class="en" hidden>Feb 2026</span></span><div class="tl-body"><b><span class="zh">《人形机器人与具身智能标准体系(2026版)》正式发布</span><span class="en" hidden>"Humanoid Robot &amp; Embodied AI Standards System (2026)" published</span><a class="tl-src" href="https://www.news.cn/20260228/c27e2dfdb0f4496494c7e4991f2e8c2f/c.html" target="_blank" rel="noopener"><span class="zh">新华网↗</span><span class="en" hidden>Xinhua↗</span></a></b><span class="zh">工信部人形机器人与具身智能标准化技术委员会发布;同期"十五五"规划建议将具身智能纳入未来产业体系</span><span class="en" hidden>Issued by MIIT's standardization committee; the 15th Five-Year Plan proposal also named embodied AI a future industry priority</span><a class="tl-src" href="https://www.news.cn/20251119/e9cb9ce2aa934d4287ccf42231e79803/c.html" target="_blank" rel="noopener"><span class="zh">相关报道↗</span><span class="en" hidden>coverage↗</span></a><span>。</span></div></li>
+      <li><span class="tl-date mono"><span class="zh">2026年6月</span><span class="en" hidden>Jun 2026</span></span><div class="tl-body"><b><span class="zh">工信部、国资委联合通知</span><span class="en" hidden>Joint notice from MIIT and SASAC</span><a class="tl-src" href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_f291ccd3da4c47ce95741de63cc088e6.html" target="_blank" rel="noopener"><span class="zh">工信部官网↗</span><span class="en" hidden>MIIT↗</span></a></b><span class="zh">明确到2026年底重点场景实现应用验证和常态部署,形成万台级落地能力。</span><span class="en" hidden>Targets validated deployment in key scenarios by end-2026, building toward 10,000-unit-scale rollout capacity.</span></div></li>
+      <li><span class="tl-date mono"><span class="zh">2026年5月</span><span class="en" hidden>May 2026</span></span><div class="tl-body"><b><span class="zh">特斯拉Optimus小批量正式采购(PPA)</span><span class="en" hidden>Tesla Optimus enters small-batch production purchase (PPA)</span></b><span class="zh">从送样验证阶段进入小批量正式采购。</span><span class="en" hidden>Moves from sample validation into a formal small-batch purchase agreement.</span><span class="tl-tag"><span class="zh">企业动态</span><span class="en" hidden>Company news</span></span></div></li>
+      <li><span class="tl-date mono"><span class="zh">2026年7–8月</span><span class="en" hidden>Jul–Aug 2026</span></span><div class="tl-body"><b><span class="zh">Optimus V3 弗里蒙特工厂投产</span><span class="en" hidden>Optimus V3 goes into production at Fremont</span></b><span class="zh">年内目标产量5万台。</span><span class="en" hidden>Full-year production target of 50,000 units.</span><span class="tl-tag"><span class="zh">企业动态</span><span class="en" hidden>Company news</span></span></div></li>
+      <li><span class="tl-date mono"><span class="zh">2026年8月</span><span class="en" hidden>Aug 2026</span></span><div class="tl-body"><b><span class="zh">宇树科技启动询价申购</span><span class="en" hidden>Unitree launches IPO book-building</span><a class="tl-src" href="https://finance.sina.com.cn/wm/2026-05-26/doc-inhzevau9083919.shtml" target="_blank" rel="noopener"><span class="zh">新浪财经↗</span><span class="en" hidden>Sina Finance↗</span></a></b><span class="zh">拟募资约42亿元、估值约420亿元,冲刺科创板"人形机器人第一股"。</span><span class="en" hidden>Targeting ~RMB 4.2B raised at a ~RMB 42B valuation, on track to become the first listed humanoid-robot maker on the STAR Market.</span><span class="tl-tag"><span class="zh">资本市场</span><span class="en" hidden>Capital markets</span></span></div></li>
     </ul>
-    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:14px;">行业共识:2025年为"量产元年"(国内出货量约1.8万台,同比激增超650%<a class="src" href="https://news.qq.com/rain/a/20260104A05J2X00" target="_blank" rel="noopener">腾讯新闻↗</a>);2026年被称为"商业化元年",工信部预计中国人形机器人整机产量全年有望首次突破10万台。手上订单方面,优必选U1系列已获超1.1万台订单<a class="src" href="https://news.qq.com/rain/a/20260630V07G9P00" target="_blank" rel="noopener">腾讯新闻↗</a>,绿的谐波订单已排至2027年<a class="src" href="https://www.tmtpost.com/8052511.html" target="_blank" rel="noopener">钛媒体↗</a>。(注:网络流传的"埃斯顿在手订单超300亿元""锋龙股份在手订单超55亿元"两项数字,经核实缺乏权威一手来源、且与部分公开报道存在矛盾,本报告不予采用。)</p>
+    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:14px;">
+      <span class="zh">行业共识:2025年为"量产元年"(国内出货量约1.8万台,同比激增超650%<a class="src" href="https://news.qq.com/rain/a/20260104A05J2X00" target="_blank" rel="noopener">腾讯新闻↗</a>);2026年被称为"商业化元年",工信部预计中国人形机器人整机产量全年有望首次突破10万台。手上订单方面,优必选U1系列已获超1.1万台订单<a class="src" href="https://news.qq.com/rain/a/20260630V07G9P00" target="_blank" rel="noopener">腾讯新闻↗</a>,绿的谐波订单已排至2027年<a class="src" href="https://www.tmtpost.com/8052511.html" target="_blank" rel="noopener">钛媒体↗</a>。(注:网络流传的"埃斯顿在手订单超300亿元""锋龙股份在手订单超55亿元"两项数字,经核实缺乏权威一手来源、且与部分公开报道存在矛盾,本报告不予采用。)</span>
+      <span class="en" hidden>Industry consensus: 2025 was the "first year of mass production" (domestic shipments of ~18,000 units, up 650%+ YoY<a class="src" href="https://news.qq.com/rain/a/20260104A05J2X00" target="_blank" rel="noopener">Tencent News↗</a>); 2026 is dubbed the "commercialization year," with MIIT projecting China's full-year humanoid output could top 100,000 units for the first time. On order books, UBTech's U1 series has logged 11,000+ orders<a class="src" href="https://news.qq.com/rain/a/20260630V07G9P00" target="_blank" rel="noopener">Tencent News↗</a>, and Leaderdrive's harmonic-drive order book is booked through 2027<a class="src" href="https://www.tmtpost.com/8052511.html" target="_blank" rel="noopener">TMTPost↗</a>. (Note: widely circulated figures claiming Estun holds RMB 30B+ in backlog and Fenglong Co. RMB 5.5B+ lack a credible primary source and conflict with some public reporting, so they are excluded here.)</span>
+    </p>
 
-    <h3 class="sub">应用场景商业化进度排序</h3>
+    <h3 class="sub"><span class="zh">应用场景商业化进度排序</span><span class="en" hidden>Commercialization Ranking by Use Case</span></h3>
     <ol class="ranked" style="list-style:none;">
-      <li><span class="rank-n">01</span><div class="rank-body"><b>工业制造 · 最快</b><span>汽车、家电产线中的搬运、分拣、质检、螺栓拧紧,已实现小批量部署,渗透率领先。</span></div></li>
-      <li><span class="rank-n">02</span><div class="rank-body"><b>特种作业 / 巡检</b><span>电力巡检、化工安防等高危场景落地方案较成熟,渗透率约1.8%–3.2%。</span></div></li>
-      <li><span class="rank-n">03</span><div class="rank-body"><b>物流仓储</b><span>分拣、转运等环节加速渗透,整体规模仍偏小。</span></div></li>
-      <li><span class="rank-n">04</span><div class="rank-body"><b>家庭服务 · 最滞后</b><span>2026年上半年已有少量家用定位产品进入真实家庭完成叠衣、擦桌等任务,仍处早期示范阶段。</span></div></li>
+      <li><span class="rank-n">01</span><div class="rank-body"><b><span class="zh">工业制造 · 最快</span><span class="en" hidden>Industrial manufacturing · Fastest</span></b><span class="zh">汽车、家电产线中的搬运、分拣、质检、螺栓拧紧,已实现小批量部署,渗透率领先。</span><span class="en" hidden>Material handling, sorting, QC, and bolt-fastening on auto and appliance lines — already at small-batch deployment, leading in penetration.</span></div></li>
+      <li><span class="rank-n">02</span><div class="rank-body"><b><span class="zh">特种作业 / 巡检</span><span class="en" hidden>Special operations / inspection</span></b><span class="zh">电力巡检、化工安防等高危场景落地方案较成熟,渗透率约1.8%–3.2%。</span><span class="en" hidden>Power-grid inspection and chemical-plant safety are relatively mature high-risk use cases, at ~1.8–3.2% penetration.</span></div></li>
+      <li><span class="rank-n">03</span><div class="rank-body"><b><span class="zh">物流仓储</span><span class="en" hidden>Logistics &amp; warehousing</span></b><span class="zh">分拣、转运等环节加速渗透,整体规模仍偏小。</span><span class="en" hidden>Sorting and transfer tasks are seeing accelerating adoption, though overall scale remains small.</span></div></li>
+      <li><span class="rank-n">04</span><div class="rank-body"><b><span class="zh">家庭服务 · 最滞后</span><span class="en" hidden>Home service · Least mature</span></b><span class="zh">2026年上半年已有少量家用定位产品进入真实家庭完成叠衣、擦桌等任务,仍处早期示范阶段。</span><span class="en" hidden>A handful of home-oriented products completed real-household tasks like folding laundry and wiping tables in H1 2026, but the category remains at early demo stage.</span></div></li>
     </ol>
 
     <details class="src">
-      <summary>本节补充参考(未逐条挂链的综合性报道)</summary>
+      <summary><span class="zh">本节补充参考(未逐条挂链的综合性报道)</span><span class="en" hidden>Additional references for this section</span></summary>
       <ul>
-        <li><a href="https://www.cls.cn/detail/2418480" target="_blank" rel="noopener">财联社 — 高盛人形机器人预测</a></li>
-        <li><a href="https://finance.sina.com.cn/stock/usstock/c/2026-06-24/doc-inienxzy3047124.shtml" target="_blank" rel="noopener">新浪财经 — 摩根士丹利中国销量上调(2026年6月)</a></li>
-        <li><a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener">新浪财经 — GGII《2025年人形机器人产业发展蓝皮书》</a></li>
-        <li><a href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_01010414608a4226b30687773bb21bdf.html" target="_blank" rel="noopener">工信部官网 — "人工智能+制造"专项行动实施意见</a></li>
-        <li><a href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_f291ccd3da4c47ce95741de63cc088e6.html" target="_blank" rel="noopener">工信部官网 — 人形机器人实景实训专项行动通知(2026年6月)</a></li>
-        <li><a href="https://news.qq.com/rain/a/20260104A05J2X00" target="_blank" rel="noopener">腾讯新闻 — 2025年出货量数据(转引GGII)</a></li>
+        <li><a href="https://www.cls.cn/detail/2418480" target="_blank" rel="noopener">Cailian Press — Goldman Sachs humanoid robot forecast</a></li>
+        <li><a href="https://finance.sina.com.cn/stock/usstock/c/2026-06-24/doc-inienxzy3047124.shtml" target="_blank" rel="noopener">Sina Finance — Morgan Stanley raises China shipment forecast (Jun 2026)</a></li>
+        <li><a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener">Sina Finance — GGII "2025 Humanoid Robot Industry Blue Paper"</a></li>
+        <li><a href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_01010414608a4226b30687773bb21bdf.html" target="_blank" rel="noopener">MIIT — "AI+Manufacturing" implementation plan</a></li>
+        <li><a href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_f291ccd3da4c47ce95741de63cc088e6.html" target="_blank" rel="noopener">MIIT — humanoid deployment pilot notice (Jun 2026)</a></li>
+        <li><a href="https://news.qq.com/rain/a/20260104A05J2X00" target="_blank" rel="noopener">Tencent News — 2025 shipment data (via GGII)</a></li>
       </ul>
     </details>
   </section>
 
   <!-- ================= SECTION 2 ================= -->
   <section class="chapter" id="s2">
-    <div class="chapter-head"><span class="chapter-num">02</span><h2>重点企业与竞争格局</h2></div>
-    <p class="chapter-intro">中国阵营以整机快速迭代与价格下探跑通订单和资本市场;海外阵营依靠巨头绑定与高估值私募融资,技术上更强调端到端具身大模型。</p>
+    <div class="chapter-head"><span class="chapter-num">02</span><h2><span class="zh">重点企业与竞争格局</span><span class="en" hidden>Key Players &amp; Competitive Landscape</span></h2></div>
+    <p class="chapter-intro"><span class="zh">中国阵营以整机快速迭代与价格下探跑通订单和资本市场;海外阵营依靠巨头绑定与高估值私募融资,技术上更强调端到端具身大模型。</span><span class="en" hidden>China's camp is winning orders and capital-market access through fast product iteration and aggressive price cuts; the overseas camp leans on strategic partnerships with large incumbents and high-valuation private funding, with more emphasis on end-to-end embodied AI models.</span></p>
 
-    <p class="camp-label">海外阵营</p>
+    <p class="camp-label"><span class="zh">海外阵营</span><span class="en" hidden>Overseas Camp</span></p>
     <div class="card-grid">
       <div class="co-card">
-        <div class="co-head"><span class="co-name">Tesla Optimus</span><span class="co-badge">量产筹备</span></div>
-        <p class="co-pos">特斯拉"AI+机器人"战略核心</p>
-        <p>V3已在Fremont搭建新产线,173cm/57kg,22自由度灵巧手、AI5芯片,2026年5月进入小批量正式采购;马斯克坦言量产爬坡"极其缓慢",7月仍未正式投产。计划年内启动对外销售,目标价2–3万美元。</p>
+        <div class="co-head"><span class="co-name">Tesla Optimus</span><span class="co-badge"><span class="zh">量产筹备</span><span class="en" hidden>Ramping to production</span></span></div>
+        <p class="co-pos"><span class="zh">特斯拉"AI+机器人"战略核心</span><span class="en" hidden>Core of Tesla's "AI + robotics" strategy</span></p>
+        <p><span class="zh">V3已在Fremont搭建新产线,173cm/57kg,22自由度灵巧手、AI5芯片,2026年5月进入小批量正式采购;马斯克坦言量产爬坡"极其缓慢",7月仍未正式投产。计划年内启动对外销售,目标价2–3万美元。</span><span class="en" hidden>V3 has a new line at Fremont — 173cm/57kg, a 22-DOF hand, AI5 chip — and entered small-batch procurement in May 2026; Musk has admitted the production ramp is "extremely slow," with no formal production yet as of July. External sales are planned within the year at a target price of $20–30K.</span></p>
         <div class="src-row"><a class="card-src" href="https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/" target="_blank" rel="noopener">Electrek ↗</a><a class="card-src" href="https://theaiinsider.tech/2026/07/25/musk-updates-progress-of-teslas-optimus-humanoid-robot-warns-of-long-and-flat-production-ramp/" target="_blank" rel="noopener">The AI Insider ↗</a></div>
       </div>
       <div class="co-card">
-        <div class="co-head"><span class="co-name">Figure AI</span><span class="co-badge">估值390亿美元</span></div>
-        <p class="co-pos">通用人形机器人,自研VLA大模型Helix</p>
-        <p>2025年9月C轮融资超10亿美元,Parkway Venture Capital领投,Brookfield、英伟达、英特尔资本跟投。得州"BotQ"产线在建,计划未来四年出货10万台。</p>
-        <div class="src-row"><a class="card-src" href="https://www.figure.ai/news/series-c" target="_blank" rel="noopener">Figure AI官方 ↗</a><a class="card-src" href="https://www.therobotreport.com/figure-ai-raises-1b-in-series-c-funding-toward-humanoid-robot-development/" target="_blank" rel="noopener">The Robot Report ↗</a></div>
+        <div class="co-head"><span class="co-name">Figure AI</span><span class="co-badge"><span class="zh">估值390亿美元</span><span class="en" hidden>$39B valuation</span></span></div>
+        <p class="co-pos"><span class="zh">通用人形机器人,自研VLA大模型Helix</span><span class="en" hidden>General-purpose humanoid robots; in-house VLA model, Helix</span></p>
+        <p><span class="zh">2025年9月C轮融资超10亿美元,Parkway Venture Capital领投,Brookfield、英伟达、英特尔资本跟投。得州"BotQ"产线在建,计划未来四年出货10万台。</span><span class="en" hidden>Raised $1B+ in a Series C in Sep 2025, led by Parkway Venture Capital with Brookfield, NVIDIA, and Intel Capital participating. Its "BotQ" line in Texas is under construction, targeting 100,000 units shipped over four years.</span></p>
+        <div class="src-row"><a class="card-src" href="https://www.figure.ai/news/series-c" target="_blank" rel="noopener"><span class="zh">Figure AI官方 ↗</span><span class="en" hidden>Figure AI (official) ↗</span></a><a class="card-src" href="https://www.therobotreport.com/figure-ai-raises-1b-in-series-c-funding-toward-humanoid-robot-development/" target="_blank" rel="noopener">The Robot Report ↗</a></div>
       </div>
       <div class="co-card">
-        <div class="co-head"><span class="co-name">Boston Dynamics</span><span class="co-badge">现代汽车控股</span></div>
-        <p class="co-pos">Atlas,老牌机器人厂商</p>
-        <p>2026年CES发布量产版电动Atlas,产能已全部预订,首批交付现代Robotics Metaplant与Google DeepMind。现代计划自家工厂部署超2.5万台(2028年起)。</p>
+        <div class="co-head"><span class="co-name">Boston Dynamics</span><span class="co-badge"><span class="zh">现代汽车控股</span><span class="en" hidden>Hyundai-owned</span></span></div>
+        <p class="co-pos"><span class="zh">Atlas,老牌机器人厂商</span><span class="en" hidden>Atlas; legacy robotics pioneer</span></p>
+        <p><span class="zh">2026年CES发布量产版电动Atlas,产能已全部预订,首批交付现代Robotics Metaplant与Google DeepMind。现代计划自家工厂部署超2.5万台(2028年起)。</span><span class="en" hidden>Unveiled the production-ready electric Atlas at CES 2026; capacity is fully booked, with first units going to Hyundai's Robotics Metaplant and Google DeepMind. Hyundai plans to deploy 25,000+ units across its own plants starting 2028.</span></p>
         <div class="src-row"><a class="card-src" href="https://www.engadget.com/big-tech/boston-dynamics-unveils-production-ready-version-of-atlas-robot-at-ces-2026-234047882.html" target="_blank" rel="noopener">Engadget ↗</a><a class="card-src" href="https://www.koreaherald.com/article/10741955" target="_blank" rel="noopener">Korea Herald ↗</a></div>
       </div>
       <div class="co-card">
-        <div class="co-head"><span class="co-name">Agility Robotics</span><span class="co-badge">2026年底上市</span></div>
-        <p class="co-pos">Digit,聚焦物流仓储场景</p>
-        <p>2026年6月宣布SPAC合并上市(隐含估值约25亿美元),纳斯达克代码AGLT。客户含Schaeffler、GXO、丰田加拿大、Mercado Libre,已签约多年期收入超3亿美元。</p>
+        <div class="co-head"><span class="co-name">Agility Robotics</span><span class="co-badge"><span class="zh">2026年底上市</span><span class="en" hidden>Going public late 2026</span></span></div>
+        <p class="co-pos"><span class="zh">Digit,聚焦物流仓储场景</span><span class="en" hidden>Digit; focused on logistics &amp; warehousing</span></p>
+        <p><span class="zh">2026年6月宣布SPAC合并上市(隐含估值约25亿美元),纳斯达克代码AGLT。客户含Schaeffler、GXO、丰田加拿大、Mercado Libre,已签约多年期收入超3亿美元。</span><span class="en" hidden>Announced a SPAC merger in Jun 2026 at an implied $2.5B valuation, listing on Nasdaq as AGLT. Customers include Schaeffler, GXO, Toyota Canada, and Mercado Libre, with $300M+ in signed multi-year contracts.</span></p>
         <div class="src-row"><a class="card-src" href="https://www.geekwire.com/2026/digit-maker-agility-robotics-to-go-public-in-2-5b-deal-heres-what-the-filings-say-about-its-finances/" target="_blank" rel="noopener">GeekWire ↗</a></div>
       </div>
       <div class="co-card">
-        <div class="co-head"><span class="co-name">1X Technologies</span><span class="co-badge">家庭+产业双线</span></div>
-        <p class="co-pos">NEO,获OpenAI创投基金投资</p>
-        <p>2025年10月发布消费级NEO,5天获1万台预订(2万美元);2026年Hayward工厂全面量产,并与EQT协议2026–2030年向300余家被投企业供应最多1万台。</p>
+        <div class="co-head"><span class="co-name">1X Technologies</span><span class="co-badge"><span class="zh">家庭+产业双线</span><span class="en" hidden>Home + industrial, dual-track</span></span></div>
+        <p class="co-pos"><span class="zh">NEO,获OpenAI创投基金投资</span><span class="en" hidden>NEO; backed by the OpenAI Startup Fund</span></p>
+        <p><span class="zh">2025年10月发布消费级NEO,5天获1万台预订(2万美元);2026年Hayward工厂全面量产,并与EQT协议2026–2030年向300余家被投企业供应最多1万台。</span><span class="en" hidden>Launched the consumer NEO in Oct 2025, drawing 10,000 pre-orders in 5 days at $20K each; its Hayward plant reached full production in 2026, and a deal with EQT will supply up to 10,000 units to 300+ portfolio companies from 2026–2030.</span></p>
         <div class="src-row"><a class="card-src" href="https://techcrunch.com/2025/12/11/1x-struck-a-deal-to-send-its-home-humanoids-to-factories-and-warehouses/" target="_blank" rel="noopener">TechCrunch ↗</a><a class="card-src" href="https://www.forbes.com/sites/johnkoetsier/2026/04/30/1x-kicks-off-full-scale-production-of-humanoid-robot-neo/" target="_blank" rel="noopener">Forbes ↗</a></div>
       </div>
     </div>
 
-    <p class="camp-label">中国阵营</p>
+    <p class="camp-label"><span class="zh">中国阵营</span><span class="en" hidden>China Camp</span></p>
     <div class="card-grid">
       <div class="co-card">
-        <div class="co-head"><span class="co-name">宇树科技 Unitree</span><span class="co-badge">科创板上市</span></div>
-        <p class="co-pos">四足机器人起家,创始人王兴兴持股23.82%</p>
-        <p>2026年8月19日上市,募资42.02亿元,"A股人形机器人第一股"。2025年人形机器人出货超5,500台、全球第一,营收17.08亿元。</p>
-        <div class="src-row"><a class="card-src" href="https://finance.sina.com.cn/wm/2026-05-26/doc-inhzevau9083919.shtml" target="_blank" rel="noopener">新浪财经 ↗</a><a class="card-src" href="https://robotscope.net/pulse/2026-08-02/unitree-ipo-countdown/" target="_blank" rel="noopener">RobotScope ↗</a></div>
+        <div class="co-head"><span class="co-name"><span class="zh">宇树科技 Unitree</span><span class="en" hidden>Unitree</span></span><span class="co-badge"><span class="zh">科创板上市</span><span class="en" hidden>Listed, STAR Market</span></span></div>
+        <p class="co-pos"><span class="zh">四足机器人起家,创始人王兴兴持股23.82%</span><span class="en" hidden>Started in quadruped robots; founder Wang Xingxing holds 23.82%</span></p>
+        <p><span class="zh">2026年8月19日上市,募资42.02亿元,"A股人形机器人第一股"。2025年人形机器人出货超5,500台、全球第一,营收17.08亿元。</span><span class="en" hidden>Listed Aug 19, 2026, raising RMB 4.2B as the first A-share humanoid-robot maker. Shipped 5,500+ humanoid units in 2025 — the global No. 1 — on RMB 1.7B revenue.</span></p>
+        <div class="src-row"><a class="card-src" href="https://finance.sina.com.cn/wm/2026-05-26/doc-inhzevau9083919.shtml" target="_blank" rel="noopener"><span class="zh">新浪财经 ↗</span><span class="en" hidden>Sina Finance ↗</span></a><a class="card-src" href="https://robotscope.net/pulse/2026-08-02/unitree-ipo-countdown/" target="_blank" rel="noopener">RobotScope ↗</a></div>
       </div>
       <div class="co-card">
-        <div class="co-head"><span class="co-name">优必选 UBTech</span><span class="co-badge">港股上市</span></div>
-        <p class="co-pos">U1系列超仿生人形机器人</p>
-        <p>2026年6月发布U1系列(Lite 11.98万元、Pro 16.98万元、Ultra最高99万元),预售累计订单突破1.33万台,为2025全年销量的十倍以上,9月16日启动交付。</p>
-        <div class="src-row"><a class="card-src" href="http://www.xinhuanet.com/tech/20260701/3c549b1ded2e47a4894e5b982b8ebc09/c.html" target="_blank" rel="noopener">新华网 ↗</a><a class="card-src" href="https://www.tmtpost.com/8052511.html" target="_blank" rel="noopener">钛媒体 ↗</a></div>
+        <div class="co-head"><span class="co-name"><span class="zh">优必选 UBTech</span><span class="en" hidden>UBTech</span></span><span class="co-badge"><span class="zh">港股上市</span><span class="en" hidden>Listed, HKEX</span></span></div>
+        <p class="co-pos"><span class="zh">U1系列超仿生人形机器人</span><span class="en" hidden>U1 series, "ultra-bionic" humanoids</span></p>
+        <p><span class="zh">2026年6月发布U1系列(Lite 11.98万元、Pro 16.98万元、Ultra最高99万元),预售累计订单突破1.33万台,为2025全年销量的十倍以上,9月16日启动交付。</span><span class="en" hidden>Launched the U1 series in Jun 2026 (Lite RMB 120K, Pro RMB 170K, Ultra up to RMB 990K); pre-orders topped 13,300 units — over 10x its full-year 2025 sales — with deliveries starting Sep 16.</span></p>
+        <div class="src-row"><a class="card-src" href="http://www.xinhuanet.com/tech/20260701/3c549b1ded2e47a4894e5b982b8ebc09/c.html" target="_blank" rel="noopener"><span class="zh">新华网 ↗</span><span class="en" hidden>Xinhua ↗</span></a><a class="card-src" href="https://www.tmtpost.com/8052511.html" target="_blank" rel="noopener">TMTPost ↗</a></div>
       </div>
       <div class="co-card">
-        <div class="co-head"><span class="co-name">智元机器人 AgiBot</span><span class="co-badge">冲刺港股IPO</span></div>
-        <p class="co-pos">具身智能基座大模型GO-1</p>
-        <p>2025年获腾讯、京东、上汽等多轮融资,估值超200亿元;2026年启动赴港IPO,寻求约200亿美元估值。WAIC 2026发布远征A3 Ultra等5款新品。</p>
-        <div class="src-row"><a class="card-src" href="https://companies.caixin.com/m/2026-07-24/102467799.html" target="_blank" rel="noopener">财新 ↗</a><a class="card-src" href="https://www.jiemian.com/article/13845721.html" target="_blank" rel="noopener">界面新闻 ↗</a></div>
+        <div class="co-head"><span class="co-name"><span class="zh">智元机器人 AgiBot</span><span class="en" hidden>AgiBot</span></span><span class="co-badge"><span class="zh">冲刺港股IPO</span><span class="en" hidden>Pursuing HK IPO</span></span></div>
+        <p class="co-pos"><span class="zh">具身智能基座大模型GO-1</span><span class="en" hidden>Embodied-AI foundation model GO-1</span></p>
+        <p><span class="zh">2025年获腾讯、京东、上汽等多轮融资,估值超200亿元;2026年启动赴港IPO,寻求约200亿美元估值。WAIC 2026发布远征A3 Ultra等5款新品。</span><span class="en" hidden>Raised multiple rounds in 2025 from Tencent, JD.com, and SAIC at a RMB 20B+ valuation; launched a Hong Kong IPO process in 2026 targeting ~$20B. Unveiled 5 new products, including the Yuanzheng A3 Ultra, at WAIC 2026.</span></p>
+        <div class="src-row"><a class="card-src" href="https://companies.caixin.com/m/2026-07-24/102467799.html" target="_blank" rel="noopener">Caixin ↗</a><a class="card-src" href="https://www.jiemian.com/article/13845721.html" target="_blank" rel="noopener">Jiemian ↗</a></div>
       </div>
       <div class="co-card">
-        <div class="co-head"><span class="co-name">傅利叶智能 Fourier</span><span class="co-badge">IPO静默期</span></div>
-        <p class="co-pos">医疗康复外骨骼切入具身智能</p>
-        <p>2025年完成E轮8亿元,全年融资约11亿元;2026年CES发布GR-3,主打情感陪伴交互;已更名股份有限公司,筹备IPO。</p>
-        <div class="src-row"><a class="card-src" href="https://www.aibangbots.com/a/4111" target="_blank" rel="noopener">艾邦机器人 ↗</a><a class="card-src" href="https://robotscope.net/companies/fourier-intelligence/" target="_blank" rel="noopener">RobotScope ↗</a></div>
+        <div class="co-head"><span class="co-name"><span class="zh">傅利叶智能 Fourier</span><span class="en" hidden>Fourier Intelligence</span></span><span class="co-badge"><span class="zh">IPO静默期</span><span class="en" hidden>Pre-IPO quiet period</span></span></div>
+        <p class="co-pos"><span class="zh">医疗康复外骨骼切入具身智能</span><span class="en" hidden>Entered embodied AI via medical rehab exoskeletons</span></p>
+        <p><span class="zh">2025年完成E轮8亿元,全年融资约11亿元;2026年CES发布GR-3,主打情感陪伴交互;已更名股份有限公司,筹备IPO。</span><span class="en" hidden>Closed a RMB 800M Series E in 2025 (RMB 1.1B for the year); unveiled the GR-3 at CES 2026, positioned around emotional-companion interaction, and converted to a joint-stock company ahead of an IPO.</span></p>
+        <div class="src-row"><a class="card-src" href="https://www.aibangbots.com/a/4111" target="_blank" rel="noopener"><span class="zh">艾邦机器人 ↗</span><span class="en" hidden>AiBang Robotics ↗</span></a><a class="card-src" href="https://robotscope.net/companies/fourier-intelligence/" target="_blank" rel="noopener">RobotScope ↗</a></div>
       </div>
       <div class="co-card">
-        <div class="co-head"><span class="co-name">小鹏 / 小米机器人</span><span class="co-badge">整车厂跨界</span></div>
-        <p class="co-pos">从造车切入工业/商业人形机器人</p>
-        <p>小鹏第五代人形机器人IRON计划2026年内在广州量产基地量产;小米新一代机器人身高1.7米、66自由度,已在小米汽车工厂完成4个月产线实习,螺母上件成功率98%。</p>
-        <div class="src-row"><a class="card-src" href="https://finance.sina.com.cn/tech/digi/2026-08-19/doc-ininvwqt9357115.shtml" target="_blank" rel="noopener">新浪科技 ↗</a><a class="card-src" href="https://m.thepaper.cn/newsDetail_forward_30867386" target="_blank" rel="noopener">澎湃新闻 ↗</a></div>
+        <div class="co-head"><span class="co-name"><span class="zh">小鹏 / 小米机器人</span><span class="en" hidden>XPeng / Xiaomi Robotics</span></span><span class="co-badge"><span class="zh">整车厂跨界</span><span class="en" hidden>Automaker crossover</span></span></div>
+        <p class="co-pos"><span class="zh">从造车切入工业/商业人形机器人</span><span class="en" hidden>Automakers entering industrial/commercial humanoids</span></p>
+        <p><span class="zh">小鹏第五代人形机器人IRON计划2026年内在广州量产基地量产;小米新一代机器人身高1.7米、66自由度,已在小米汽车工厂完成4个月产线实习,螺母上件成功率98%。</span><span class="en" hidden>XPeng's 5th-gen humanoid, IRON, is set for production at its Guangzhou plant within 2026; Xiaomi's next-gen robot (1.7m, 66 DOF) completed a 4-month line trial at Xiaomi's auto plant with a 98% success rate on nut-fastening.</span></p>
+        <div class="src-row"><a class="card-src" href="https://finance.sina.com.cn/tech/digi/2026-08-19/doc-ininvwqt9357115.shtml" target="_blank" rel="noopener"><span class="zh">新浪科技 ↗</span><span class="en" hidden>Sina Tech ↗</span></a><a class="card-src" href="https://m.thepaper.cn/newsDetail_forward_30867386" target="_blank" rel="noopener">The Paper ↗</a></div>
       </div>
     </div>
 
-    <p style="color:var(--ink-soft);font-size:0.92rem;">2026年被业内普遍称为"量产元年":中国阵营在整机出货量和价格下探上暂时领先——宇树、优必选订单已排至2027年、价格下探至3万元级,并率先跑通资本市场;海外阵营则更依赖巨头绑定与高估值私募融资,技术路线上更强调VLA大模型与端到端具身智能,商业化节奏相对审慎但单体技术成熟度更高。特斯拉Optimus资金与声量最大,但实际量产进度落后于预期。整体来看,行业正从"实验室秀肌肉"转向"真实场景订单"竞争,工厂与物流场景率先规模化,家庭场景仍处早期导入阶段。</p>
+    <p style="color:var(--ink-soft);font-size:0.92rem;">
+      <span class="zh">2026年被业内普遍称为"量产元年":中国阵营在整机出货量和价格下探上暂时领先——宇树、优必选订单已排至2027年、价格下探至3万元级,并率先跑通资本市场;海外阵营则更依赖巨头绑定与高估值私募融资,技术路线上更强调VLA大模型与端到端具身智能,商业化节奏相对审慎但单体技术成熟度更高。特斯拉Optimus资金与声量最大,但实际量产进度落后于预期。整体来看,行业正从"实验室秀肌肉"转向"真实场景订单"竞争,工厂与物流场景率先规模化,家庭场景仍处早期导入阶段。</span>
+      <span class="en" hidden>2026 is widely called the "mass-production year": China's camp currently leads on shipment volume and price cuts — Unitree and UBTech are booked through 2027 with prices down to ~RMB 30K — and has been first to tap the capital markets. The overseas camp leans more on partnerships with large incumbents and high-valuation private funding, with a stronger emphasis on VLA models and end-to-end embodied AI; its commercialization pace is more cautious but individual technical maturity is higher. Tesla's Optimus has the most capital and buzz, but its actual production timeline lags expectations. Overall, the industry is shifting from "lab demos" to competing on real-world orders, with factories and logistics scaling first and the home segment still in early adoption.</span>
+    </p>
   </section>
 
   <!-- ================= SECTION 3 ================= -->
   <section class="chapter" id="s3">
-    <div class="chapter-head"><span class="chapter-num">03</span><h2>核心技术与产业链</h2></div>
-    <p class="chapter-intro">硬件BOM约占整机成本60%–70%,关节模组(电机+减速器+丝杠)是成本与技术壁垒最集中的环节;"大脑"层面则是VLA具身大模型的路线竞速。</p>
+    <div class="chapter-head"><span class="chapter-num">03</span><h2><span class="zh">核心技术与产业链</span><span class="en" hidden>Core Technology &amp; Supply Chain</span></h2></div>
+    <p class="chapter-intro"><span class="zh">硬件BOM约占整机成本60%–70%,关节模组(电机+减速器+丝杠)是成本与技术壁垒最集中的环节;"大脑"层面则是VLA具身大模型的路线竞速。</span><span class="en" hidden>Hardware BOM accounts for roughly 60–70% of unit cost, with joint modules (motors + reducers + lead screws) concentrating both cost and technical barriers; at the "brain" layer, the race is between VLA-based embodied AI models.</span></p>
 
     <div class="chart-card">
-      <h4>整机硬件成本结构(常见拆解口径)</h4>
-      <p class="chart-sub">精密减速器、伺服系统与控制系统三项合计占比超70%</p>
-      <svg viewBox="0 0 640 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="精密减速器36%,伺服系统24%,控制系统12%,其他28%">
+      <h4><span class="zh">整机硬件成本结构(常见拆解口径)</span><span class="en" hidden>Hardware Cost Breakdown (common estimate)</span></h4>
+      <p class="chart-sub"><span class="zh">精密减速器、伺服系统与控制系统三项合计占比超70%</span><span class="en" hidden>Precision reducers, servo systems, and control systems together exceed 70% of cost</span></p>
+      <svg viewBox="0 0 640 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Precision reducers 36%, servo systems 24%, control systems 12%, other 28%">
         <rect x="40" y="24" width="199.4" height="42" rx="4" fill="var(--s1)"/>
         <rect x="241.4" y="24" width="133.0" height="42" fill="var(--s2)"/>
         <rect x="376.4" y="24" width="66.5" height="42" fill="var(--s3)"/>
@@ -534,111 +568,144 @@
         <text x="522.4" y="49" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="IBM Plex Mono, monospace">28%</text>
       </svg>
       <div class="legend-row">
-        <div class="legend-item"><span class="legend-swatch" style="background:var(--s1);"></span>精密减速器</div>
-        <div class="legend-item"><span class="legend-swatch" style="background:var(--s2);"></span>伺服系统(含电机)</div>
-        <div class="legend-item"><span class="legend-swatch" style="background:var(--s3);"></span>控制系统</div>
-        <div class="legend-item"><span class="legend-swatch" style="background:var(--s4);"></span>本体结构/传感器/电池等其他</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--s1);"></span><span class="zh">精密减速器</span><span class="en" hidden>Precision reducers</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--s2);"></span><span class="zh">伺服系统(含电机)</span><span class="en" hidden>Servo systems (incl. motors)</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--s3);"></span><span class="zh">控制系统</span><span class="en" hidden>Control systems</span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--s4);"></span><span class="zh">本体结构/传感器/电池等其他</span><span class="en" hidden>Structure, sensors, battery &amp; other</span></div>
       </div>
-      <p class="chart-src">数据来源:<a href="https://www.hangyan.co/charts/3569101223439107230" target="_blank" rel="noopener">小牛行研(2025年2月)↗</a>、<a href="https://www.tmtpost.com/8041415.html" target="_blank" rel="noopener">钛媒体产业链成本拆解↗</a>整理。另一常见口径显示关节模组整体约占整机成本50%,其中谐波减速器单项占比约15.6%<a class="src" href="https://www.sohu.com/a/1031719925_121124371" target="_blank" rel="noopener">搜狐↗</a>。</p>
+      <p class="chart-src"><span class="zh">数据来源:<a href="https://www.hangyan.co/charts/3569101223439107230" target="_blank" rel="noopener">小牛行研(2025年2月)↗</a>、<a href="https://www.tmtpost.com/8041415.html" target="_blank" rel="noopener">钛媒体产业链成本拆解↗</a>整理。另一常见口径显示关节模组整体约占整机成本50%,其中谐波减速器单项占比约15.6%<a class="src" href="https://www.sohu.com/a/1031719925_121124371" target="_blank" rel="noopener">搜狐↗</a>。</span><span class="en" hidden>Source: <a href="https://www.hangyan.co/charts/3569101223439107230" target="_blank" rel="noopener">Niuxing Research (Feb 2025)↗</a>, <a href="https://www.tmtpost.com/8041415.html" target="_blank" rel="noopener">TMTPost supply-chain cost breakdown↗</a>. Another common estimate puts joint modules at ~50% of total cost, with harmonic reducers alone at ~15.6%<a class="src" href="https://www.sohu.com/a/1031719925_121124371" target="_blank" rel="noopener">Sohu↗</a>.</span></p>
     </div>
 
-    <h3 class="sub">关键零部件与代表供应商</h3>
+    <h3 class="sub"><span class="zh">关键零部件与代表供应商</span><span class="en" hidden>Key Components &amp; Representative Suppliers</span></h3>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>类别</th><th>代表企业</th><th>备注</th><th>来源</th></tr></thead>
+        <thead><tr>
+          <th><span class="zh">类别</span><span class="en" hidden>Category</span></th>
+          <th><span class="zh">代表企业</span><span class="en" hidden>Representative suppliers</span></th>
+          <th><span class="zh">备注</span><span class="en" hidden>Notes</span></th>
+          <th><span class="zh">来源</span><span class="en" hidden>Source</span></th>
+        </tr></thead>
         <tbody>
-          <tr><td>无框力矩电机</td><td>鸣志电器 · 大族电机 · 步科</td><td>鸣志电器为空心杯电机全球龙头,单指电机成本约300美元(海外竞品约800美元)</td><td class="src-cell"><a href="https://www.aibangbots.com/a/1764" target="_blank" rel="noopener">艾邦↗</a></td></tr>
-          <tr><td>行星滚柱丝杠/直线执行器</td><td>拓普集团 · 三花智控</td><td>均为特斯拉Optimus独家供应商;拓普良率约99.2%,三花单机价值量约2.8万元</td><td class="src-cell"><a href="https://finance.ifeng.com/c/8uzPVYBVQgQ" target="_blank" rel="noopener">凤凰财经↗</a></td></tr>
-          <tr><td>谐波减速器</td><td>绿的谐波 · 双环传动</td><td>绿的谐波为国产龙头,深度绑定智元、优必选</td><td class="src-cell"><a href="https://finance.ifeng.com/c/8uzPVYBVQgQ" target="_blank" rel="noopener">凤凰财经↗</a></td></tr>
-          <tr><td>六维力传感器</td><td>中航电测 · 昊志机电 · 中鼎股份 · 柯力传感</td><td>昊志机电2025上半年机器人核心部件收入同比+127%</td><td class="src-cell"><a href="https://sensor.ofweek.com/2025-03/ART-81001-8120-30659617.html" target="_blank" rel="noopener">OFweek↗</a></td></tr>
-          <tr><td>灵巧手(国产"四小龙")</td><td>灵心巧手 · 因时机器人 · 灵巧智能 · 强脑科技</td><td>灵心巧手占全球高自由度灵巧手份额超80%,唯一月产千台企业</td><td class="src-cell"><a href="https://www.ofweek.com/ai/2025-06/ART-201700-8440-30664499.html" target="_blank" rel="noopener">OFweek↗</a></td></tr>
-          <tr><td>其他核心部件龙头</td><td>汇川技术 · 美的集团 · 埃斯顿 · 兆威机电</td><td>覆盖驱控、电机及精密传动</td><td class="src-cell"><a href="https://www.sina.cn/news/detail/5315923448955883.html" target="_blank" rel="noopener">新浪↗</a></td></tr>
+          <tr><td><span class="zh">无框力矩电机</span><span class="en" hidden>Frameless torque motors</span></td><td><span class="zh">鸣志电器 · 大族电机 · 步科</span><span class="en" hidden>Moons' · Han's Motor · StepperOnline</span></td><td><span class="zh">鸣志电器为空心杯电机全球龙头,单指电机成本约300美元(海外竞品约800美元)</span><span class="en" hidden>Moons' leads globally in coreless motors; per-finger motor cost ~$300 vs. ~$800 for overseas peers</span></td><td class="src-cell"><a href="https://www.aibangbots.com/a/1764" target="_blank" rel="noopener"><span class="zh">艾邦↗</span><span class="en" hidden>AiBang↗</span></a></td></tr>
+          <tr><td><span class="zh">行星滚柱丝杠/直线执行器</span><span class="en" hidden>Planetary roller screws / linear actuators</span></td><td><span class="zh">拓普集团 · 三花智控</span><span class="en" hidden>Topgroup · Sanhua</span></td><td><span class="zh">均为特斯拉Optimus独家供应商;拓普良率约99.2%,三花单机价值量约2.8万元</span><span class="en" hidden>Both are exclusive Tesla Optimus suppliers; Topgroup's yield is ~99.2%, Sanhua's content value per unit is ~RMB 28K</span></td><td class="src-cell"><a href="https://finance.ifeng.com/c/8uzPVYBVQgQ" target="_blank" rel="noopener"><span class="zh">凤凰财经↗</span><span class="en" hidden>iFeng↗</span></a></td></tr>
+          <tr><td><span class="zh">谐波减速器</span><span class="en" hidden>Harmonic reducers</span></td><td><span class="zh">绿的谐波 · 双环传动</span><span class="en" hidden>Leaderdrive · Shuanghuan Driveline</span></td><td><span class="zh">绿的谐波为国产龙头,深度绑定智元、优必选</span><span class="en" hidden>Leaderdrive is the domestic leader, closely tied to AgiBot and UBTech</span></td><td class="src-cell"><a href="https://finance.ifeng.com/c/8uzPVYBVQgQ" target="_blank" rel="noopener"><span class="zh">凤凰财经↗</span><span class="en" hidden>iFeng↗</span></a></td></tr>
+          <tr><td><span class="zh">六维力传感器</span><span class="en" hidden>Six-axis force sensors</span></td><td><span class="zh">中航电测 · 昊志机电 · 中鼎股份 · 柯力传感</span><span class="en" hidden>AVIC Electromeasurement · Haozhi · Zhongding · Keli Sensing</span></td><td><span class="zh">昊志机电2025上半年机器人核心部件收入同比+127%</span><span class="en" hidden>Haozhi's core-component revenue rose 127% YoY in H1 2025</span></td><td class="src-cell"><a href="https://sensor.ofweek.com/2025-03/ART-81001-8120-30659617.html" target="_blank" rel="noopener">OFweek↗</a></td></tr>
+          <tr><td><span class="zh">灵巧手(国产"四小龙")</span><span class="en" hidden>Dexterous hands (China's "Big 4")</span></td><td><span class="zh">灵心巧手 · 因时机器人 · 灵巧智能 · 强脑科技</span><span class="en" hidden>Linker Bionics · Inspire Robots · Dexrobot · BrainCo</span></td><td><span class="zh">灵心巧手占全球高自由度灵巧手份额超80%,唯一月产千台企业</span><span class="en" hidden>Linker Bionics holds 80%+ global share of high-DOF hands, the only maker at 1,000+ units/month</span></td><td class="src-cell"><a href="https://www.ofweek.com/ai/2025-06/ART-201700-8440-30664499.html" target="_blank" rel="noopener">OFweek↗</a></td></tr>
+          <tr><td><span class="zh">其他核心部件龙头</span><span class="en" hidden>Other component leaders</span></td><td><span class="zh">汇川技术 · 美的集团 · 埃斯顿 · 兆威机电</span><span class="en" hidden>Inovance · Midea · Estun · Zhaowei</span></td><td><span class="zh">覆盖驱控、电机及精密传动</span><span class="en" hidden>Span drives/controls, motors, and precision transmission</span></td><td class="src-cell"><a href="https://www.sina.cn/news/detail/5315923448955883.html" target="_blank" rel="noopener"><span class="zh">新浪↗</span><span class="en" hidden>Sina↗</span></a></td></tr>
         </tbody>
       </table>
     </div>
 
-    <h3 class="sub">"大脑"层技术路线</h3>
+    <h3 class="sub"><span class="zh">"大脑"层技术路线</span><span class="en" hidden>"Brain"-Layer Model Approaches</span></h3>
     <div class="tech-grid">
-      <div class="tech-card"><b>智元 GO-1</b><p>2025年3月发布全球首个通用具身基座大模型,ViLLA(视觉-语言-潜动作)架构,可从人类视频学习并小样本泛化;9月GitHub开源。</p><a class="card-src" href="https://finance.sina.com.cn/wm/2025-03-13/doc-inepnchv1024230.shtml" target="_blank" rel="noopener">新浪财经 ↗</a></div>
-      <div class="tech-card"><b>银河通用</b><p>主推VLA具身大模型路线,2026年3月完成25亿元融资(国家大基金三期首次投资具身智能)。</p><a class="card-src" href="https://news.pedaily.cn/202603/561608.shtml" target="_blank" rel="noopener">投资界 ↗</a></div>
-      <div class="tech-card"><b>Google DeepMind</b><p>2025年3月推出Gemini Robotics与具身推理版Gemini Robotics-ER;6月发布支持端侧本地运行的On-Device版本。</p><a class="card-src" href="https://en.wikipedia.org/wiki/Gemini_Robotics" target="_blank" rel="noopener">Wikipedia ↗</a></div>
-      <div class="tech-card"><b>NVIDIA GR00T</b><p>GR00T N1及升级版N1.6,作为开放的人形机器人通用基础模型,已在真实双臂人形硬件上验证。</p><a class="card-src" href="https://developer.nvidia.com/blog/pretrained-to-imagine-fine-tuned-to-act-the-rise-of-world-action-models/" target="_blank" rel="noopener">NVIDIA Blog ↗</a></div>
-      <div class="tech-card"><b>Figure Helix</b><p>Figure 03搭载与OpenAI共研的端到端VLA系统,2026年1月推出Helix 02,以千万参数神经网络替代约10.9万行手工控制代码。</p><a class="card-src" href="https://eu.36kr.com/en/p/3476581554018438" target="_blank" rel="noopener">36氪 ↗</a></div>
+      <div class="tech-card"><b><span class="zh">智元 GO-1</span><span class="en" hidden>AgiBot GO-1</span></b><p><span class="zh">2025年3月发布全球首个通用具身基座大模型,ViLLA(视觉-语言-潜动作)架构,可从人类视频学习并小样本泛化;9月GitHub开源。</span><span class="en" hidden>Launched in Mar 2025 as the first general-purpose embodied foundation model, using a ViLLA (vision-language-latent-action) architecture that learns from human video and generalizes from few-shot data; open-sourced on GitHub in September.</span></p><a class="card-src" href="https://finance.sina.com.cn/wm/2025-03-13/doc-inepnchv1024230.shtml" target="_blank" rel="noopener"><span class="zh">新浪财经 ↗</span><span class="en" hidden>Sina Finance ↗</span></a></div>
+      <div class="tech-card"><b><span class="zh">银河通用</span><span class="en" hidden>Galbot</span></b><p><span class="zh">主推VLA具身大模型路线,2026年3月完成25亿元融资(国家大基金三期首次投资具身智能)。</span><span class="en" hidden>Pursues a VLA embodied-model approach; closed a RMB 2.5B round in Mar 2026 — the National IC Fund Phase III's first embodied-AI investment.</span></p><a class="card-src" href="https://news.pedaily.cn/202603/561608.shtml" target="_blank" rel="noopener"><span class="zh">投资界 ↗</span><span class="en" hidden>PEdaily ↗</span></a></div>
+      <div class="tech-card"><b>Google DeepMind</b><p><span class="zh">2025年3月推出Gemini Robotics与具身推理版Gemini Robotics-ER;6月发布支持端侧本地运行的On-Device版本。</span><span class="en" hidden>Released Gemini Robotics and the reasoning-focused Gemini Robotics-ER in Mar 2025; shipped an On-Device version for local, offline inference in June.</span></p><a class="card-src" href="https://en.wikipedia.org/wiki/Gemini_Robotics" target="_blank" rel="noopener">Wikipedia ↗</a></div>
+      <div class="tech-card"><b>NVIDIA GR00T</b><p><span class="zh">GR00T N1及升级版N1.6,作为开放的人形机器人通用基础模型,已在真实双臂人形硬件上验证。</span><span class="en" hidden>GR00T N1 and the upgraded N1.6 serve as an open general-purpose humanoid foundation model, validated on real dual-arm humanoid hardware.</span></p><a class="card-src" href="https://developer.nvidia.com/blog/pretrained-to-imagine-fine-tuned-to-act-the-rise-of-world-action-models/" target="_blank" rel="noopener">NVIDIA Blog ↗</a></div>
+      <div class="tech-card"><b>Figure Helix</b><p><span class="zh">Figure 03搭载与OpenAI共研的端到端VLA系统,2026年1月推出Helix 02,以千万参数神经网络替代约10.9万行手工控制代码。</span><span class="en" hidden>Figure 03 runs Helix, an end-to-end VLA system co-developed with OpenAI; Helix 02, released Jan 2026, replaced ~109,000 lines of hand-written control code with a tens-of-millions-parameter neural network.</span></p><a class="card-src" href="https://eu.36kr.com/en/p/3476581554018438" target="_blank" rel="noopener">36Kr ↗</a></div>
     </div>
 
-    <h3 class="sub">行业公认技术瓶颈</h3>
+    <h3 class="sub"><span class="zh">行业公认技术瓶颈</span><span class="en" hidden>Recognized Technical Bottlenecks</span></h3>
     <div class="bottleneck-grid">
-      <div class="bn-item"><b>量产良率</b><span>国内整机企业超140家,能实现千台级稳定量产的不足10家;非头部核心关节良率普遍低于85%。</span> <a class="card-src" href="https://www.esmchina.com/news/14384.html" target="_blank" rel="noopener">国际电子商情 ↗</a></div>
-      <div class="bn-item"><b>灵巧手成本与可靠性</b><span>高端空心杯电机、主控芯片国产替代窗口预计还需3–5年;特斯拉Optimus曾因手部可靠性问题暂停迭代节奏。</span> <a class="card-src" href="https://www.tmtpost.com/8041415.html" target="_blank" rel="noopener">钛媒体 ↗</a></div>
-      <div class="bn-item"><b>续航</b><span>多数机型续航仅2–5小时,难以覆盖8小时工作班次。</span> <a class="card-src" href="https://zhuanlan.zhihu.com/p/2021882264091371211" target="_blank" rel="noopener">知乎 ↗</a></div>
-      <div class="bn-item"><b>数据与算力</b><span>高质量具身数据集稀缺,制约模型泛化与灵活操作能力提升。</span> <a class="card-src" href="https://zhuanlan.zhihu.com/p/2021882264091371211" target="_blank" rel="noopener">知乎 ↗</a></div>
-      <div class="bn-item"><b>精细操作</b><span>处理柔软、微小或不规则物体时仍显著逊于人手。</span> <a class="card-src" href="https://zhuanlan.zhihu.com/p/1997605413038866853" target="_blank" rel="noopener">知乎 ↗</a></div>
+      <div class="bn-item"><b><span class="zh">量产良率</span><span class="en" hidden>Production yield</span></b><span class="zh">国内整机企业超140家,能实现千台级稳定量产的不足10家;非头部核心关节良率普遍低于85%。</span><span class="en" hidden>Of 140+ domestic OEMs, fewer than 10 can reliably mass-produce at 1,000+ units; core-joint yield at non-leading firms is typically below 85%.</span> <a class="card-src" href="https://www.esmchina.com/news/14384.html" target="_blank" rel="noopener"><span class="zh">国际电子商情 ↗</span><span class="en" hidden>ESM China ↗</span></a></div>
+      <div class="bn-item"><b><span class="zh">灵巧手成本与可靠性</span><span class="en" hidden>Dexterous-hand cost &amp; reliability</span></b><span class="zh">高端空心杯电机、主控芯片国产替代窗口预计还需3–5年;特斯拉Optimus曾因手部可靠性问题暂停迭代节奏。</span><span class="en" hidden>Domestic substitution for high-end coreless motors and control chips is still 3–5 years out; Tesla's Optimus program has previously paused its iteration pace over hand-reliability issues.</span> <a class="card-src" href="https://www.tmtpost.com/8041415.html" target="_blank" rel="noopener">TMTPost ↗</a></div>
+      <div class="bn-item"><b><span class="zh">续航</span><span class="en" hidden>Battery life</span></b><span class="zh">多数机型续航仅2–5小时,难以覆盖8小时工作班次。</span><span class="en" hidden>Most models run only 2–5 hours, short of a full 8-hour shift.</span> <a class="card-src" href="https://zhuanlan.zhihu.com/p/2021882264091371211" target="_blank" rel="noopener">Zhihu ↗</a></div>
+      <div class="bn-item"><b><span class="zh">数据与算力</span><span class="en" hidden>Data &amp; compute</span></b><span class="zh">高质量具身数据集稀缺,制约模型泛化与灵活操作能力提升。</span><span class="en" hidden>High-quality embodied datasets remain scarce, limiting model generalization and dexterous manipulation.</span> <a class="card-src" href="https://zhuanlan.zhihu.com/p/2021882264091371211" target="_blank" rel="noopener">Zhihu ↗</a></div>
+      <div class="bn-item"><b><span class="zh">精细操作</span><span class="en" hidden>Fine manipulation</span></b><span class="zh">处理柔软、微小或不规则物体时仍显著逊于人手。</span><span class="en" hidden>Still clearly inferior to the human hand with soft, small, or irregularly shaped objects.</span> <a class="card-src" href="https://zhuanlan.zhihu.com/p/1997605413038866853" target="_blank" rel="noopener">Zhihu ↗</a></div>
     </div>
   </section>
 
   <!-- ================= SECTION 4 ================= -->
   <section class="chapter" id="s4">
-    <div class="chapter-head"><span class="chapter-num">04</span><h2>投融资与二级市场</h2></div>
-    <p class="chapter-intro">一级市场融资持续加码,IPO窗口在中国率先打开;二级市场围绕产业链各环节形成"概念股"图谱。以下为事实性信息整理,不构成投资建议。</p>
+    <div class="chapter-head"><span class="chapter-num">04</span><h2><span class="zh">投融资与二级市场</span><span class="en" hidden>Financing &amp; Public Markets</span></h2></div>
+    <p class="chapter-intro"><span class="zh">一级市场融资持续加码,IPO窗口在中国率先打开;二级市场围绕产业链各环节形成"概念股"图谱。以下为事实性信息整理,不构成投资建议。</span><span class="en" hidden>Private-market funding keeps accelerating, and the IPO window has opened first in China; public markets have formed a "concept stock" map spanning the supply chain. The following is factual reference material, not investment advice.</span></p>
 
-    <h3 class="sub">2025–2026年代表性融资事件</h3>
+    <h3 class="sub"><span class="zh">2025–2026年代表性融资事件</span><span class="en" hidden>Notable Funding Events, 2025–2026</span></h3>
     <ul class="timeline">
-      <li><span class="tl-date mono">2026.03</span><div class="tl-body"><b>银河通用 · 25亿元<a class="tl-src" href="https://news.pedaily.cn/202603/561608.shtml" target="_blank" rel="noopener">投资界↗</a></b><span>刷新国内具身智能单轮融资纪录,估值突破200亿元,国家大基金三期首次投资具身智能。</span></div></li>
-      <li><span class="tl-date mono">2026.04</span><div class="tl-body"><b>星动纪元 · 超2亿美元<a class="tl-src" href="https://caifuhao.eastmoney.com/news/20260202115308531336250" target="_blank" rel="noopener">东方财富↗</a></b><span>顺丰集团战略领投,红杉中国、IDG资本、中金资本跟投。</span></div></li>
-      <li><span class="tl-date mono">2026.04</span><div class="tl-body"><b>加速进化 · 近10亿元</b><span>北京高精尖产业基金、京国盛基金、华控基金联合领投。</span></div></li>
-      <li><span class="tl-date mono">2026.02</span><div class="tl-body"><b>逐际动力 · 2亿美元B轮</b><span>阿联酋磊石资本、东方富海、基石资本参投。</span></div></li>
-      <li><span class="tl-date mono">2025.09</span><div class="tl-body"><b>Figure AI · 超10亿美元C轮<a class="tl-src" href="https://www.therobotreport.com/figure-ai-raises-1b-in-series-c-funding-toward-humanoid-robot-development/" target="_blank" rel="noopener">The Robot Report↗</a></b><span>估值390亿美元,Parkway Venture Capital领投,Brookfield、英伟达、英特尔资本跟投。</span></div></li>
-      <li><span class="tl-date mono">2026.02</span><div class="tl-body"><b>Apptronik · 5.2亿美元B轮扩募<a class="tl-src" href="https://techfundingnews.com/top-humanoid-robot-startups-2026-funding/" target="_blank" rel="noopener">TechFundingNews↗</a></b><span>估值约55亿美元。</span></div></li>
-      <li><span class="tl-date mono">2026.06</span><div class="tl-body"><b>Neura Robotics(德国) · 最高14亿美元C轮<a class="tl-src" href="https://www.cnbc.com/2026/06/10/neura-robotics-funding-ai-humanoid-robots.html" target="_blank" rel="noopener">CNBC↗</a></b><span>Tether、高通、亚马逊、英伟达、博世参投,估值约70亿美元。</span></div></li>
-      <li><span class="tl-date mono">2026.07</span><div class="tl-body"><b>Humanoid(英国) · 1.52亿美元A轮<a class="tl-src" href="https://finance.yahoo.com/technology/ai/articles/humanoid-raises-152m-series-1-105703642.html" target="_blank" rel="noopener">Yahoo Finance↗</a></b><span>Prime Movers Lab领投,估值13.5亿美元,成为欧洲首家纯人形机器人独角兽。</span></div></li>
+      <li><span class="tl-date mono">2026.03</span><div class="tl-body"><b><span class="zh">银河通用 · 25亿元</span><span class="en" hidden>Galbot · RMB 2.5B</span><a class="tl-src" href="https://news.pedaily.cn/202603/561608.shtml" target="_blank" rel="noopener"><span class="zh">投资界↗</span><span class="en" hidden>PEdaily↗</span></a></b><span class="zh">刷新国内具身智能单轮融资纪录,估值突破200亿元,国家大基金三期首次投资具身智能。</span><span class="en" hidden>A record single round for China's embodied-AI sector, pushing its valuation past RMB 20B; the National IC Fund Phase III's first embodied-AI bet.</span></div></li>
+      <li><span class="tl-date mono">2026.04</span><div class="tl-body"><b><span class="zh">星动纪元 · 超2亿美元</span><span class="en" hidden>Robot Era · $200M+</span><a class="tl-src" href="https://caifuhao.eastmoney.com/news/20260202115308531336250" target="_blank" rel="noopener"><span class="zh">东方财富↗</span><span class="en" hidden>Eastmoney↗</span></a></b><span class="zh">顺丰集团战略领投,红杉中国、IDG资本、中金资本跟投。</span><span class="en" hidden>Led by SF Holding, with Sequoia China, IDG Capital, and CICC Capital participating.</span></div></li>
+      <li><span class="tl-date mono">2026.04</span><div class="tl-body"><b><span class="zh">加速进化 · 近10亿元</span><span class="en" hidden>Booster Robotics · ~RMB 1B</span></b><span class="zh">北京高精尖产业基金、京国盛基金、华控基金联合领投。</span><span class="en" hidden>Co-led by Beijing's High-Precision Industry Fund, Jingguosheng Fund, and Huakong Fund.</span></div></li>
+      <li><span class="tl-date mono">2026.02</span><div class="tl-body"><b><span class="zh">逐际动力 · 2亿美元B轮</span><span class="en" hidden>LimX Dynamics · $200M Series B</span></b><span class="zh">阿联酋磊石资本、东方富海、基石资本参投。</span><span class="en" hidden>With participation from UAE's Lunate, Oriza Holdings, and Cornerstone Capital.</span></div></li>
+      <li><span class="tl-date mono">2025.09</span><div class="tl-body"><b><span class="zh">Figure AI · 超10亿美元C轮</span><span class="en" hidden>Figure AI · $1B+ Series C</span><a class="tl-src" href="https://www.therobotreport.com/figure-ai-raises-1b-in-series-c-funding-toward-humanoid-robot-development/" target="_blank" rel="noopener">The Robot Report↗</a></b><span class="zh">估值390亿美元,Parkway Venture Capital领投,Brookfield、英伟达、英特尔资本跟投。</span><span class="en" hidden>Valued at $39B, led by Parkway Venture Capital with Brookfield, NVIDIA, and Intel Capital.</span></div></li>
+      <li><span class="tl-date mono">2026.02</span><div class="tl-body"><b><span class="zh">Apptronik · 5.2亿美元B轮扩募</span><span class="en" hidden>Apptronik · $520M Series B extension</span><a class="tl-src" href="https://techfundingnews.com/top-humanoid-robot-startups-2026-funding/" target="_blank" rel="noopener">TechFundingNews↗</a></b><span class="zh">估值约55亿美元。</span><span class="en" hidden>Valued at ~$5.5B.</span></div></li>
+      <li><span class="tl-date mono">2026.06</span><div class="tl-body"><b><span class="zh">Neura Robotics(德国) · 最高14亿美元C轮</span><span class="en" hidden>Neura Robotics (Germany) · up to $1.4B Series C</span><a class="tl-src" href="https://www.cnbc.com/2026/06/10/neura-robotics-funding-ai-humanoid-robots.html" target="_blank" rel="noopener">CNBC↗</a></b><span class="zh">Tether、高通、亚马逊、英伟达、博世参投,估值约70亿美元。</span><span class="en" hidden>With Tether, Qualcomm, Amazon, NVIDIA, and Bosch participating; valued at ~$7.0B.</span></div></li>
+      <li><span class="tl-date mono">2026.07</span><div class="tl-body"><b><span class="zh">Humanoid(英国) · 1.52亿美元A轮</span><span class="en" hidden>Humanoid (UK) · $152M Series A</span><a class="tl-src" href="https://finance.yahoo.com/technology/ai/articles/humanoid-raises-152m-series-1-105703642.html" target="_blank" rel="noopener">Yahoo Finance↗</a></b><span class="zh">Prime Movers Lab领投,估值13.5亿美元,成为欧洲首家纯人形机器人独角兽。</span><span class="en" hidden>Led by Prime Movers Lab at a $1.35B valuation, making it Europe's first pure-play humanoid-robot unicorn.</span></div></li>
     </ul>
-    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:14px;">2026年前两月中国人形机器人(含零部件)已披露18起融资,合计超130亿元;全年中国具身智能累计约88起融资、总额超200亿元。全球范围看,2026年机器人领域累计融资约558亿美元,其中人形机器人赛道约86亿美元<a class="src" href="https://valueaddvc.com/pulse/robotics-humanoid-funding-23-billion-2026" target="_blank" rel="noopener">Value Add VC↗</a>。</p>
+    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:14px;">
+      <span class="zh">2026年前两月中国人形机器人(含零部件)已披露18起融资,合计超130亿元;全年中国具身智能累计约88起融资、总额超200亿元。全球范围看,2026年机器人领域累计融资约558亿美元,其中人形机器人赛道约86亿美元<a class="src" href="https://valueaddvc.com/pulse/robotics-humanoid-funding-23-billion-2026" target="_blank" rel="noopener">Value Add VC↗</a>。</span>
+      <span class="en" hidden>In just the first two months of 2026, China's humanoid-robot sector (including components) disclosed 18 funding rounds worth RMB 13B+; the full-year count for China's embodied-AI sector reached ~88 rounds totaling RMB 20B+. Globally, robotics funding reached ~$55.8B in 2026, with the humanoid segment accounting for ~$8.6B<a class="src" href="https://valueaddvc.com/pulse/robotics-humanoid-funding-23-billion-2026" target="_blank" rel="noopener">Value Add VC↗</a>.</span>
+    </p>
 
-    <h3 class="sub">上市动态</h3>
+    <h3 class="sub"><span class="zh">上市动态</span><span class="en" hidden>Listing Activity</span></h3>
     <div class="ipo-grid">
       <div class="ipo-card">
-        <div class="co-name">优必选 UBTech</div>
+        <div class="co-name"><span class="zh">优必选 UBTech</span><span class="en" hidden>UBTech</span></div>
         <div class="ipo-fig">09880.HK</div>
-        <p>2023年12月港股上市,IPO净募资约9.06亿港元;2024–2025年六次配股再融资约67.1亿港元。2026年9月股价约85.55港元,曾单日暴涨近90%,市值一度突破千亿元。</p>
-        <a class="card-src" href="https://www.cls.cn/detail/1558125" target="_blank" rel="noopener">财联社 ↗</a>&nbsp;<a class="card-src" href="https://www.aibang.com/a/34486" target="_blank" rel="noopener">艾邦 ↗</a>
+        <p><span class="zh">2023年12月港股上市,IPO净募资约9.06亿港元;2024–2025年六次配股再融资约67.1亿港元。2026年9月股价约85.55港元,曾单日暴涨近90%,市值一度突破千亿元。</span><span class="en" hidden>Listed in Hong Kong in Dec 2023, raising ~HK$906M net; six follow-on placements in 2024–2025 raised a further ~HK$6.71B. Trading around HK$85.55 as of Sep 2026, it has posted a near-90% single-day gain and briefly topped a RMB 100B market cap.</span></p>
+        <a class="card-src" href="https://www.cls.cn/detail/1558125" target="_blank" rel="noopener"><span class="zh">财联社 ↗</span><span class="en" hidden>Cailian Press ↗</span></a>&nbsp;<a class="card-src" href="https://www.aibang.com/a/34486" target="_blank" rel="noopener"><span class="zh">艾邦 ↗</span><span class="en" hidden>AiBang ↗</span></a>
       </div>
       <div class="ipo-card">
-        <div class="co-name">宇树科技</div>
-        <div class="ipo-fig">42.02亿元</div>
-        <p>科创板IPO进程迅速:3月受理、6月过会并提交注册、7月获同意注册、8月19日上市。营收从2023年1.59亿元增至2025年16.99亿元,2026年一季度净利润同比降52.55%。</p>
-        <a class="card-src" href="https://finance.sina.com.cn/wm/2026-07-06/doc-inifwmvs1837058.shtml" target="_blank" rel="noopener">新浪财经 ↗</a>&nbsp;<a class="card-src" href="https://www.bbtnews.com.cn/2026/0601/595009.shtml" target="_blank" rel="noopener">北京商报 ↗</a>
+        <div class="co-name"><span class="zh">宇树科技</span><span class="en" hidden>Unitree</span></div>
+        <div class="ipo-fig"><span class="zh">42.02亿元</span><span class="en" hidden>¥4.2B</span></div>
+        <p><span class="zh">科创板IPO进程迅速:3月受理、6月过会并提交注册、7月获同意注册、8月19日上市。营收从2023年1.59亿元增至2025年16.99亿元,2026年一季度净利润同比降52.55%。</span><span class="en" hidden>A fast STAR Market IPO process: accepted in March, approved and filed for registration in June, cleared by regulators in July, listed Aug 19. Revenue grew from RMB 159M in 2023 to RMB 1.7B in 2025, though Q1 2026 net profit fell 52.55% YoY.</span></p>
+        <a class="card-src" href="https://finance.sina.com.cn/wm/2026-07-06/doc-inifwmvs1837058.shtml" target="_blank" rel="noopener"><span class="zh">新浪财经 ↗</span><span class="en" hidden>Sina Finance ↗</span></a>&nbsp;<a class="card-src" href="https://www.bbtnews.com.cn/2026/0601/595009.shtml" target="_blank" rel="noopener"><span class="zh">北京商报 ↗</span><span class="en" hidden>Beijing Business Today ↗</span></a>
       </div>
       <div class="ipo-card">
-        <div class="co-name">智元机器人</div>
-        <div class="ipo-fig">约21亿元</div>
-        <p>收购上纬新材(688585)66.99%股权实现控制权变更,股价从约30亿元市值飙升至370亿元,2025年全年涨幅超1800%居A股之首;公司否认属严格意义"借壳上市"。</p>
-        <a class="card-src" href="https://www.36kr.com/p/3371814439719682" target="_blank" rel="noopener">36氪 ↗</a>
+        <div class="co-name"><span class="zh">智元机器人</span><span class="en" hidden>AgiBot</span></div>
+        <div class="ipo-fig"><span class="zh">约21亿元</span><span class="en" hidden>~¥2.1B</span></div>
+        <p><span class="zh">收购上纬新材(688585)66.99%股权实现控制权变更,股价从约30亿元市值飙升至370亿元,2025年全年涨幅超1800%居A股之首;公司否认属严格意义"借壳上市"。</span><span class="en" hidden>Took control via a 66.99% stake acquisition in Shangwei New Materials (688585); the stock's market cap rocketed from ~RMB 3B to RMB 37B, gaining over 1,800% in 2025 — the top A-share performer that year. The company disputes calling this a strict "backdoor listing."</span></p>
+        <a class="card-src" href="https://www.36kr.com/p/3371814439719682" target="_blank" rel="noopener">36Kr ↗</a>
       </div>
     </div>
-    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:-14px;margin-bottom:32px;">行业普遍预期2026年为"具身智能IPO大年",A股与港股制度层面均在为机器人企业上市提供支持。</p>
+    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:-14px;margin-bottom:32px;"><span class="zh">行业普遍预期2026年为"具身智能IPO大年",A股与港股制度层面均在为机器人企业上市提供支持。</span><span class="en" hidden>2026 is widely expected to be the "IPO year" for embodied AI, with both A-share and Hong Kong listing rules increasingly accommodating robotics companies.</span></p>
 
-    <h3 class="sub">产业链概念股图谱</h3>
+    <h3 class="sub"><span class="zh">产业链概念股图谱</span><span class="en" hidden>Supply-Chain Stock Map</span></h3>
     <div class="concept-grid">
-      <div class="concept-group"><h5>整机/系统集成 <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">埃斯顿</span><span class="chip">优必选</span></div></div>
-      <div class="concept-group"><h5>减速器 <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">绿的谐波</span><span class="chip">双环传动</span><span class="chip">昊志机电</span><span class="chip">中大力德</span><span class="chip">汉宇集团</span></div></div>
-      <div class="concept-group"><h5>执行器/丝杠 <a href="https://www.sina.cn/news/detail/5296811640095672.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">拓普集团</span><span class="chip">三花智控</span><span class="chip">五洲新春</span><span class="chip">贝斯特</span></div></div>
-      <div class="concept-group"><h5>传感器 <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">奥比中光</span><span class="chip">柯力传感</span><span class="chip">敏芯股份</span><span class="chip">汉威科技</span><span class="chip">安培龙</span></div></div>
-      <div class="concept-group"><h5>驱控/电机 <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">汇川技术</span><span class="chip">鸣志电器</span><span class="chip">雷赛智能</span><span class="chip">步科股份</span><span class="chip">卧龙电驱</span></div></div>
-      <div class="concept-group"><h5>AI芯片/大脑侧 <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">中科创达</span><span class="chip">科大讯飞</span><span class="chip">凌云光</span></div></div>
-      <div class="concept-group"><h5>美股相关</h5><div class="chips"><span class="chip">特斯拉</span><span class="chip">英伟达</span><span class="chip">Figure AI(未上市)</span><span class="chip">Apptronik(未上市)</span></div></div>
+      <div class="concept-group"><h5><span class="zh">整机/系统集成</span><span class="en" hidden>Integrators / OEMs</span> <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">埃斯顿</span><span class="chip">优必选</span></div></div>
+      <div class="concept-group"><h5><span class="zh">减速器</span><span class="en" hidden>Reducers</span> <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">绿的谐波</span><span class="chip">双环传动</span><span class="chip">昊志机电</span><span class="chip">中大力德</span><span class="chip">汉宇集团</span></div></div>
+      <div class="concept-group"><h5><span class="zh">执行器/丝杠</span><span class="en" hidden>Actuators / lead screws</span> <a href="https://www.sina.cn/news/detail/5296811640095672.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">拓普集团</span><span class="chip">三花智控</span><span class="chip">五洲新春</span><span class="chip">贝斯特</span></div></div>
+      <div class="concept-group"><h5><span class="zh">传感器</span><span class="en" hidden>Sensors</span> <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">奥比中光</span><span class="chip">柯力传感</span><span class="chip">敏芯股份</span><span class="chip">汉威科技</span><span class="chip">安培龙</span></div></div>
+      <div class="concept-group"><h5><span class="zh">驱控/电机</span><span class="en" hidden>Drives / motors</span> <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">汇川技术</span><span class="chip">鸣志电器</span><span class="chip">雷赛智能</span><span class="chip">步科股份</span><span class="chip">卧龙电驱</span></div></div>
+      <div class="concept-group"><h5><span class="zh">AI芯片/大脑侧</span><span class="en" hidden>AI chips / "brain" layer</span> <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">中科创达</span><span class="chip">科大讯飞</span><span class="chip">凌云光</span></div></div>
+      <div class="concept-group"><h5><span class="zh">美股相关</span><span class="en" hidden>US-listed related</span></h5><div class="chips"><span class="chip">特斯拉</span><span class="chip">英伟达</span><span class="chip">Figure AI<span class="zh">(未上市)</span><span class="en" hidden> (private)</span></span><span class="chip">Apptronik<span class="zh">(未上市)</span><span class="en" hidden> (private)</span></span></div></div>
     </div>
 
-    <h3 class="sub">机构最新研判</h3>
+    <h3 class="sub"><span class="zh">机构最新研判</span><span class="en" hidden>Latest Institutional Views</span></h3>
     <div class="quote-grid">
-      <div class="quote-card"><p>AI投资主线正从算力转向终端应用,人形机器人为下阶段核心增长引擎;预计2027年全球出货量7.6万台,2032年升至50.2万台,大规模商业化落地窗口在2027–2029年。</p><cite><a href="https://view.inews.qq.com/a/20260811A083PW00" target="_blank" rel="noopener">高盛,2026年8月 ↗</a></cite></div>
-      <div class="quote-card"><p>人形机器人半导体市场规模预计2045年达3,050亿美元;中国有望成为最大单一市场,约占全球30%。</p><cite><a href="https://www.cls.cn/detail/2216817" target="_blank" rel="noopener">摩根士丹利 ↗</a></cite></div>
-      <div class="quote-card"><p>2026年为行业"量产元年",重点关注特斯拉Optimus V3量产验证节奏及国内供应链放量;建议聚焦技术壁垒高、成本与产能扩张壁垒明显的细分龙头,包括边缘SOC芯片、灵巧手、执行器、精密传感器。</p><cite><a href="https://www.stcn.com/article/detail/3634693.html" target="_blank" rel="noopener">中信证券/中信建投,2026年 ↗</a></cite></div>
+      <div class="quote-card"><p><span class="zh">AI投资主线正从算力转向终端应用,人形机器人为下阶段核心增长引擎;预计2027年全球出货量7.6万台,2032年升至50.2万台,大规模商业化落地窗口在2027–2029年。</span><span class="en" hidden>The AI investment thesis is shifting from compute to end applications, with humanoid robots as the next core growth engine; projects global shipments of 76K units in 2027, rising to 502K by 2032, with the mass-commercialization window in 2027–2029.</span></p><cite><a href="https://view.inews.qq.com/a/20260811A083PW00" target="_blank" rel="noopener"><span class="zh">高盛,2026年8月 ↗</span><span class="en" hidden>Goldman Sachs, Aug 2026 ↗</span></a></cite></div>
+      <div class="quote-card"><p><span class="zh">人形机器人半导体市场规模预计2045年达3,050亿美元;中国有望成为最大单一市场,约占全球30%。</span><span class="en" hidden>The humanoid-robot semiconductor market is projected to reach $305B by 2045; China is expected to be the largest single market at ~30% of the global total.</span></p><cite><a href="https://www.cls.cn/detail/2216817" target="_blank" rel="noopener">Morgan Stanley ↗</a></cite></div>
+      <div class="quote-card"><p><span class="zh">2026年为行业"量产元年",重点关注特斯拉Optimus V3量产验证节奏及国内供应链放量;建议聚焦技术壁垒高、成本与产能扩张壁垒明显的细分龙头,包括边缘SOC芯片、灵巧手、执行器、精密传感器。</span><span class="en" hidden>2026 is the industry's "mass-production year" — watch the pace of Tesla Optimus V3 production validation and China's supply-chain ramp; favors sub-segment leaders with high technical and scale-up barriers, including edge SoCs, dexterous hands, actuators, and precision sensors.</span></p><cite><a href="https://www.stcn.com/article/detail/3634693.html" target="_blank" rel="noopener"><span class="zh">中信证券/中信建投,2026年 ↗</span><span class="en" hidden>CITIC Securities / CSC, 2026 ↗</span></a></cite></div>
     </div>
   </section>
 
   <footer>
-    <p class="disclaimer">本报告基于公开信息由多方来源整理汇总,各机构统计口径、时间范围不完全一致,部分预测数字存在较大分歧,已在正文中并列标注来源;网络流传但缺乏权威一手来源或与公开报道相矛盾的数字(如部分企业在手订单金额)已在文中注明未采用。内容仅供行业研究参考,不构成任何投资建议。资料整理截至2026年9月8日,后续进展请以官方发布为准。</p>
-    <a class="back-top" href="#s1">回到顶部 ↑</a>
+    <p class="disclaimer"><span class="zh">本报告基于公开信息由多方来源整理汇总,各机构统计口径、时间范围不完全一致,部分预测数字存在较大分歧,已在正文中并列标注来源;网络流传但缺乏权威一手来源或与公开报道相矛盾的数字(如部分企业在手订单金额)已在文中注明未采用。内容仅供行业研究参考,不构成任何投资建议。资料整理截至2026年9月8日,后续进展请以官方发布为准。</span><span class="en" hidden>This report compiles public information from multiple sources; institutions differ in methodology and time frame, and where forecasts diverge significantly, sources are cited side by side. Figures that circulate widely but lack a credible primary source, or that conflict with public reporting (e.g., certain companies' order-backlog values), are flagged as excluded. Content is for research reference only and does not constitute investment advice. Compiled as of Sep 8, 2026; refer to official disclosures for subsequent developments.</span></p>
+    <a class="back-top" href="#s1"><span class="zh">回到顶部 ↑</span><span class="en" hidden>Back to top ↑</span></a>
   </footer>
 
 </div>
+
+<script>
+(function(){
+  var doc = document.querySelector('.doc');
+  if(!doc) return;
+  var saved = null;
+  try{ saved = localStorage.getItem('hr-report-lang'); }catch(e){}
+  var lang = saved === 'en' ? 'en' : 'zh';
+  function apply(l){
+    doc.setAttribute('data-lang', l);
+    var btns = doc.querySelectorAll('.lang-switch button');
+    for(var i=0;i<btns.length;i++){
+      var b = btns[i];
+      if(b.getAttribute('data-lang') === l){ b.classList.add('active'); }
+      else{ b.classList.remove('active'); }
+    }
+    try{ localStorage.setItem('hr-report-lang', l); }catch(e){}
+  }
+  apply(lang);
+  var btns = doc.querySelectorAll('.lang-switch button');
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener('click', function(){ apply(this.getAttribute('data-lang')); });
+  }
+})();
+</script>
