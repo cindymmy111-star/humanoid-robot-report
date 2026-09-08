@@ -699,6 +699,10 @@
   var lang = saved === 'en' ? 'en' : 'zh';
   function apply(l){
     doc.setAttribute('data-lang', l);
+    var zhEls = doc.querySelectorAll('.zh');
+    for(var i=0;i<zhEls.length;i++){ zhEls[i].hidden = (l === 'en'); }
+    var enEls = doc.querySelectorAll('.en');
+    for(var i=0;i<enEls.length;i++){ enEls[i].hidden = (l === 'zh'); }
     var btns = doc.querySelectorAll('.lang-switch button');
     for(var i=0;i<btns.length;i++){
       var b = btns[i];
