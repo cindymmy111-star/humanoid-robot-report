@@ -1,0 +1,618 @@
+<title>人形机器人产业透视</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<style>
+  :root{
+    --ink:#14171c;
+    --ink-soft:#4b505a;
+    --muted:#83878f;
+    --page:#e9eaea;
+    --surface:#fcfcfb;
+    --surface-raised:#ffffff;
+    --line:rgba(20,23,28,0.12);
+    --line-strong:rgba(20,23,28,0.22);
+    --accent:#9c5518;
+    --accent-strong:#7a4212;
+    --accent-soft:#f3ddb8;
+    --accent-2:#375c82;
+    --accent-2-soft:#dbe6f0;
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+    --grid-line:#e1e0d9;
+    --shadow:0 1px 2px rgba(20,23,28,0.06), 0 8px 24px -12px rgba(20,23,28,0.18);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ink:#f1f2f0; --ink-soft:#c7cad1; --muted:#8b9099;
+      --page:#111317; --surface:#191c21; --surface-raised:#1f232a;
+      --line:rgba(255,255,255,0.12); --line-strong:rgba(255,255,255,0.2);
+      --accent:#e0954a; --accent-strong:#f0ac6b; --accent-soft:#3a2a15;
+      --accent-2:#7fa8d6; --accent-2-soft:#1e2c3a;
+      --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+      --grid-line:#2c2f34;
+      --shadow:0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#f1f2f0; --ink-soft:#c7cad1; --muted:#8b9099;
+    --page:#111317; --surface:#191c21; --surface-raised:#1f232a;
+    --line:rgba(255,255,255,0.12); --line-strong:rgba(255,255,255,0.2);
+    --accent:#e0954a; --accent-strong:#f0ac6b; --accent-soft:#3a2a15;
+    --accent-2:#7fa8d6; --accent-2-soft:#1e2c3a;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+    --grid-line:#2c2f34;
+    --shadow:0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--page);color:var(--ink);}
+
+  .doc{
+    font-family:"Noto Sans SC","Noto Sans",system-ui,-apple-system,sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{
+    font-family:"Noto Serif SC","Noto Serif",Georgia,serif;
+    text-wrap:balance;
+    font-weight:700;
+    letter-spacing:0.01em;
+  }
+  .mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;}
+  a{color:var(--accent);}
+
+  /* ---- inline source links ---- */
+  a.src{
+    color:var(--accent-2);text-decoration:none;font-size:0.74em;font-weight:600;
+    margin-left:5px;white-space:nowrap;border-bottom:1px dotted var(--accent-2);
+  }
+  a.src:hover{color:var(--ink);border-bottom-color:var(--ink);}
+  td.src-cell{white-space:nowrap;}
+  td.src-cell a{color:var(--accent-2);text-decoration:none;font-size:0.82rem;font-weight:600;}
+  td.src-cell a:hover{text-decoration:underline;}
+  a.card-src{
+    display:inline-flex;align-items:center;gap:3px;margin-top:2px;
+    font-size:0.74rem;color:var(--accent-2);text-decoration:none;font-weight:600;
+  }
+  a.card-src:hover{text-decoration:underline;}
+  a.tl-src{color:var(--accent-2);text-decoration:none;font-size:0.76rem;font-weight:600;margin-left:6px;}
+  a.tl-src:hover{text-decoration:underline;}
+
+  /* ---- top bar ---- */
+  .topbar{
+    position:sticky;top:0;z-index:20;
+    background:color-mix(in srgb, var(--page) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:960px;margin:0 auto;padding:12px 24px;
+    display:flex;align-items:center;gap:24px;
+    overflow-x:auto;
+  }
+  .topbar-brand{
+    font-family:"Noto Serif SC",serif;font-weight:700;font-size:0.95rem;
+    white-space:nowrap;color:var(--ink);
+    display:flex;align-items:center;gap:8px;
+  }
+  .topbar-brand .dot{width:8px;height:8px;border-radius:2px;background:var(--accent);transform:rotate(45deg);flex:none;}
+  .topbar-nav{display:flex;gap:4px;white-space:nowrap;}
+  .topbar-nav a{
+    font-size:0.82rem;color:var(--ink-soft);text-decoration:none;
+    padding:6px 10px;border-radius:6px;font-weight:500;
+  }
+  .topbar-nav a:hover{background:var(--line);color:var(--ink);}
+
+  /* ---- header ---- */
+  .hero{max-width:960px;margin:0 auto;padding:56px 24px 40px;}
+  .hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:32px;flex-wrap:wrap;}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;font-size:0.72rem;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 14px;
+  }
+  h1.title{font-size:clamp(2rem,4.4vw,3rem);line-height:1.15;margin:0 0 14px;max-width:14ch;}
+  .subtitle{font-size:1.05rem;color:var(--ink-soft);max-width:56ch;margin:0;}
+  .rig{flex:none;width:150px;height:150px;opacity:0.9;}
+  .meta-row{
+    display:flex;gap:28px;flex-wrap:wrap;margin-top:32px;padding-top:20px;
+    border-top:1px solid var(--line);font-size:0.82rem;color:var(--muted);
+  }
+  .meta-row b{color:var(--ink-soft);font-weight:600;}
+  .howto{
+    margin-top:14px;font-size:0.8rem;color:var(--accent-2);background:var(--accent-2-soft);
+    display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:8px;font-weight:500;
+  }
+
+  /* ---- stat strip ---- */
+  .stats{max-width:960px;margin:0 auto;padding:0 24px 8px;}
+  .stat-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  }
+  .stat{background:var(--surface);padding:20px 18px;}
+  .stat-label{font-size:0.75rem;color:var(--muted);margin:0 0 8px;}
+  .stat-value{font-family:"IBM Plex Mono",monospace;font-size:1.5rem;font-weight:600;color:var(--ink);}
+  .stat-value small{font-size:0.85rem;font-weight:500;color:var(--ink-soft);}
+  .stat-src{font-size:0.72rem;color:var(--muted);margin-top:6px;}
+  .stat-src a{color:var(--accent-2);text-decoration:none;font-weight:600;}
+  .stat-src a:hover{text-decoration:underline;}
+  @media (max-width:720px){ .stat-grid{grid-template-columns:1fr 1fr;} }
+
+  /* ---- sections ---- */
+  section.chapter{max-width:960px;margin:0 auto;padding:64px 24px 8px;}
+  .chapter-head{display:flex;gap:16px;align-items:baseline;margin-bottom:28px;}
+  .chapter-num{font-family:"IBM Plex Mono",monospace;color:var(--accent);font-size:1rem;font-weight:600;}
+  .chapter-head h2{font-size:1.7rem;margin:0;}
+  .chapter-intro{color:var(--ink-soft);max-width:68ch;margin:-12px 0 32px;}
+  h3.sub{font-size:1.08rem;margin:40px 0 16px;color:var(--ink);}
+  h3.sub:first-of-type{margin-top:0;}
+  p{max-width:70ch;}
+
+  /* ---- table ---- */
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);}
+  table{border-collapse:collapse;width:100%;font-size:0.86rem;min-width:620px;}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+  thead th{
+    font-family:"IBM Plex Mono",monospace;font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;background:color-mix(in srgb, var(--surface) 60%, var(--page));
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+  /* ---- chart card ---- */
+  .chart-card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:24px 24px 18px;margin:0 0 8px;}
+  .chart-card h4{margin:0 0 4px;font-size:0.95rem;font-family:"Noto Sans SC",sans-serif;font-weight:700;}
+  .chart-card .chart-sub{font-size:0.78rem;color:var(--muted);margin:0 0 12px;}
+  .chart-card svg{width:100%;height:auto;display:block;}
+  .chart-src{font-size:0.72rem;color:var(--muted);margin-top:10px;}
+  .chart-src a{color:var(--accent-2);text-decoration:none;font-weight:600;}
+  .chart-src a:hover{text-decoration:underline;}
+  .legend-row{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:14px;}
+  .legend-item{display:flex;align-items:center;gap:7px;font-size:0.82rem;color:var(--ink-soft);}
+  .legend-swatch{width:10px;height:10px;border-radius:2px;flex:none;}
+
+  /* ---- ranked list ---- */
+  .ranked{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);}
+  .ranked li{display:flex;gap:16px;padding:16px 18px;border-bottom:1px solid var(--line);align-items:flex-start;}
+  .ranked li:last-child{border-bottom:none;}
+  .rank-n{font-family:"IBM Plex Mono",monospace;color:var(--accent);font-weight:700;font-size:0.95rem;flex:none;width:1.6em;}
+  .rank-body b{display:block;margin-bottom:2px;}
+  .rank-body span{color:var(--ink-soft);font-size:0.88rem;}
+
+  /* ---- timeline (policy / funding) ---- */
+  .timeline{position:relative;margin:0;padding:0 0 0 24px;list-style:none;border-left:2px solid var(--line-strong);}
+  .timeline li{position:relative;padding:0 0 26px 20px;}
+  .timeline li:last-child{padding-bottom:0;}
+  .timeline li::before{
+    content:"";position:absolute;left:-27px;top:4px;width:10px;height:10px;border-radius:50%;
+    background:var(--accent);border:2px solid var(--surface);box-shadow:0 0 0 2px var(--accent);
+  }
+  .tl-date{font-family:"IBM Plex Mono",monospace;font-size:0.76rem;color:var(--accent);font-weight:600;}
+  .tl-body b{display:block;margin:2px 0 3px;font-size:0.95rem;}
+  .tl-body span{color:var(--ink-soft);font-size:0.87rem;}
+  .tl-tag{display:inline-block;font-size:0.68rem;padding:2px 7px;border-radius:99px;background:var(--accent-2-soft);color:var(--accent-2);font-weight:600;margin-left:8px;vertical-align:middle;}
+
+  /* ---- company cards ---- */
+  .camp-label{font-family:"IBM Plex Mono",monospace;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;display:flex;align-items:center;gap:10px;}
+  .camp-label::after{content:"";flex:1;height:1px;background:var(--line);}
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin-bottom:36px;}
+  .co-card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:18px 18px 16px;display:flex;flex-direction:column;gap:8px;}
+  .co-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+  .co-name{font-weight:700;font-size:1rem;}
+  .co-badge{font-size:0.68rem;padding:3px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent-strong);font-weight:600;white-space:nowrap;}
+  .co-pos{font-size:0.8rem;color:var(--muted);margin:-4px 0 2px;}
+  .co-card p{font-size:0.87rem;color:var(--ink-soft);margin:0;max-width:none;}
+  .co-card .src-row{display:flex;gap:12px;margin-top:2px;flex-wrap:wrap;}
+
+  /* ---- tech route cards ---- */
+  .tech-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+  .tech-card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:18px;}
+  .tech-card b{display:block;font-size:0.95rem;margin-bottom:6px;}
+  .tech-card p{font-size:0.86rem;color:var(--ink-soft);margin:0;max-width:none;}
+
+  /* ---- bottleneck list ---- */
+  .bottleneck-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;}
+  .bn-item{padding:16px 18px;border-radius:10px;background:var(--surface);border:1px solid var(--line);}
+  .bn-item b{display:block;color:var(--ink);font-size:0.88rem;margin-bottom:4px;}
+  .bn-item span{font-size:0.84rem;color:var(--ink-soft);}
+
+  /* ---- ipo cards ---- */
+  .ipo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:32px;}
+  .ipo-card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:18px;}
+  .ipo-card .co-name{font-size:1.02rem;}
+  .ipo-fig{font-family:"IBM Plex Mono",monospace;font-size:1.3rem;font-weight:600;color:var(--accent);margin:8px 0 4px;}
+  .ipo-card p{font-size:0.84rem;color:var(--ink-soft);margin:0 0 6px;max-width:none;}
+
+  /* ---- concept map ---- */
+  .concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+  .concept-group{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;}
+  .concept-group h5{margin:0 0 10px;font-size:0.78rem;letter-spacing:0.04em;color:var(--accent-2);font-family:"IBM Plex Mono",monospace;display:flex;justify-content:space-between;gap:8px;}
+  .concept-group h5 a{color:var(--accent-2);font-size:0.9em;}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .chip{font-size:0.78rem;padding:4px 10px;border-radius:99px;background:var(--page);border:1px solid var(--line);color:var(--ink-soft);}
+
+  /* ---- quote cards ---- */
+  .quote-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+  .quote-card{border-left:3px solid var(--accent-2);background:var(--surface);border-radius:0 10px 10px 0;padding:16px 18px;border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .quote-card p{font-size:0.88rem;color:var(--ink-soft);margin:0 0 8px;max-width:none;}
+  .quote-card cite{font-family:"IBM Plex Mono",monospace;font-style:normal;font-size:0.74rem;font-weight:600;}
+  .quote-card cite a{color:var(--accent-2);text-decoration:none;}
+  .quote-card cite a:hover{text-decoration:underline;}
+
+  /* ---- sources ---- */
+  details.src{margin-top:18px;border-top:1px solid var(--line);padding-top:10px;}
+  details.src summary{cursor:pointer;font-size:0.8rem;color:var(--muted);font-weight:600;}
+  details.src summary:hover{color:var(--ink-soft);}
+  details.src ul{margin:12px 0 0;padding-left:18px;font-size:0.8rem;color:var(--muted);line-height:1.9;}
+  details.src a{color:var(--accent-2);text-decoration:underline;text-decoration-color:var(--line-strong);}
+  details.src a:hover{color:var(--accent);}
+
+  footer{max-width:960px;margin:0 auto;padding:48px 24px 72px;border-top:1px solid var(--line);margin-top:56px;}
+  footer .disclaimer{font-size:0.8rem;color:var(--muted);max-width:70ch;}
+  footer .back-top{display:inline-block;margin-top:18px;font-size:0.8rem;color:var(--accent);text-decoration:none;font-weight:600;}
+
+  @media (max-width:640px){
+    .hero{padding:40px 18px 28px;}
+    .rig{display:none;}
+    section.chapter{padding:48px 18px 8px;}
+    .topbar-inner{padding:10px 18px;}
+  }
+</style>
+
+<div class="doc">
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-brand"><span class="dot"></span>人形机器人产业透视</div>
+      <nav class="topbar-nav">
+        <a href="#s1">规模</a>
+        <a href="#s2">企业</a>
+        <a href="#s3">技术</a>
+        <a href="#s4">资本</a>
+      </nav>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <p class="eyebrow">行业研究简报 · Embodied AI &amp; Humanoid Robotics</p>
+        <h1 class="title">人形机器人产业透视</h1>
+        <p class="subtitle">从量产元年到商业化拐点:市场规模、竞争格局、核心零部件与资本市场的一次系统梳理。</p>
+      </div>
+      <svg class="rig" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="20" y="128" width="40" height="10" rx="2" stroke="var(--ink-soft)" stroke-width="2"/>
+        <line x1="40" y1="128" x2="40" y2="98" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="40" cy="98" r="6" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
+        <line x1="40" y1="98" x2="88" y2="76" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="88" cy="76" r="6" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
+        <line x1="88" y1="76" x2="86" y2="34" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="86" cy="34" r="6" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5"/>
+        <line x1="86" y1="34" x2="122" y2="20" stroke="var(--ink-soft)" stroke-width="2"/>
+        <circle cx="122" cy="20" r="5" fill="var(--accent)"/>
+        <circle cx="40" cy="98" r="1.6" fill="var(--ink-soft)"/>
+        <circle cx="88" cy="76" r="1.6" fill="var(--ink-soft)"/>
+        <circle cx="86" cy="34" r="1.6" fill="var(--ink-soft)"/>
+      </svg>
+    </div>
+    <div class="meta-row">
+      <span>资料整理日期 <b>2026年9月8日</b></span>
+      <span>覆盖周期 <b>2025 – 2026年8月</b></span>
+      <span>覆盖范围 <b>中国 · 美国 · 全球</b></span>
+      <span>性质 <b>行业研究素材,非投资建议</b></span>
+    </div>
+    <p class="howto">↗ 蓝色小标记均可点击,直达对应数据的原始报道或官方文件</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat-grid">
+      <div class="stat">
+        <p class="stat-label">2025年全球出货量</p>
+        <div class="stat-value">1.24<small>万台</small></div>
+        <p class="stat-src"><a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener">GGII高工产业研究院 ↗</a></p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">2030年中国市场规模预测</p>
+        <div class="stat-value">8,700<small>亿元</small></div>
+        <p class="stat-src"><a href="http://www.news.cn/20250330/202e43820201420696d11af858aff2fa/c.html" target="_blank" rel="noopener">中国电子学会 ↗</a></p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">宇树科技科创板募资</p>
+        <div class="stat-value">42.02<small>亿元</small></div>
+        <p class="stat-src"><a href="https://finance.sina.com.cn/wm/2026-07-06/doc-inifwmvs1837058.shtml" target="_blank" rel="noopener">"A股人形机器人第一股" ↗</a></p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">2026年全球赛道融资额</p>
+        <div class="stat-value">86<small>亿美元</small></div>
+        <p class="stat-src"><a href="https://valueaddvc.com/pulse/robotics-humanoid-funding-23-billion-2026" target="_blank" rel="noopener">Value Add VC Pulse ↗</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SECTION 1 ================= -->
+  <section class="chapter" id="s1">
+    <div class="chapter-head"><span class="chapter-num">01</span><h2>行业概况与市场规模</h2></div>
+    <p class="chapter-intro">各家机构测算口径不一、数量级差异明显,但方向一致:2025–2026年是出货量与价格的拐点,2030年前后进入规模化阶段。</p>
+
+    <h3 class="sub">机构预测对照</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>机构</th><th>口径</th><th>关键数字</th><th>时间点</th><th>来源</th></tr></thead>
+        <tbody>
+          <tr><td>高盛</td><td>全球出货量</td><td class="num">2万台 → 140万台</td><td class="num">2025 → 2035</td><td class="src-cell"><a href="https://www.cls.cn/detail/2418480" target="_blank" rel="noopener">财联社↗</a></td></tr>
+          <tr><td>麦格理(Macquarie)</td><td>全球出货量</td><td class="num">5万台 → 110万台</td><td class="num">2026 → 2031</td><td class="src-cell"><a href="https://www.cls.cn/detail/2223946" target="_blank" rel="noopener">财联社↗</a></td></tr>
+          <tr><td>摩根士丹利</td><td>中国市场规模</td><td class="num">约150亿美元</td><td class="num">2030年,交付44.6万台</td><td class="src-cell"><a href="https://finance.sina.com.cn/stock/usstock/c/2026-06-24/doc-inienxzy3047124.shtml" target="_blank" rel="noopener">新浪财经↗</a></td></tr>
+          <tr><td>GGII高工产业研究院</td><td>全球市场规模</td><td class="num">63.39亿元 → 超4,000亿元</td><td class="num">2025 → 2035</td><td class="src-cell"><a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener">新浪财经↗</a></td></tr>
+          <tr><td>中国电子学会</td><td>中国市场规模</td><td class="num">约8,700亿元</td><td class="num">2030</td><td class="src-cell"><a href="http://www.news.cn/20250330/202e43820201420696d11af858aff2fa/c.html" target="_blank" rel="noopener">新华网↗</a></td></tr>
+          <tr><td>中国信通院</td><td>中国在用台数 / 市场规模</td><td class="num">超1亿台 / 约10万亿元级</td><td class="num">2045年后</td><td class="src-cell"><a href="http://www.news.cn/fortune/20250322/cd16ad9fd1554c9fb7b5fe1bd5ecade4/c.html" target="_blank" rel="noopener">新华网↗</a></td></tr>
+          <tr><td>MarketsandMarkets</td><td>全球市场规模</td><td class="num">约54.1亿美元</td><td class="num">2026</td><td class="src-cell"><a href="https://www.marketsandmarkets.com/PressReleases/humanoid-robot.asp" target="_blank" rel="noopener">官方新闻稿↗</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-card" style="margin-top:24px;">
+      <h4>全球市场规模成长曲线</h4>
+      <p class="chart-sub">GGII 口径,单位:亿元人民币</p>
+      <svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="2025年63.39亿元,2030年超640亿元,2035年超4000亿元">
+        <line x1="95" y1="31.4" x2="600" y2="31.4" stroke="var(--grid-line)" stroke-width="1"/>
+        <line x1="95" y1="88.6" x2="600" y2="88.6" stroke="var(--grid-line)" stroke-width="1"/>
+        <line x1="95" y1="145.7" x2="600" y2="145.7" stroke="var(--grid-line)" stroke-width="1"/>
+        <line x1="95" y1="202.9" x2="600" y2="202.9" stroke="var(--grid-line)" stroke-width="1"/>
+        <line x1="95" y1="260" x2="600" y2="260" stroke="var(--line-strong)" stroke-width="1"/>
+        <text x="85" y="35" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">4000</text>
+        <text x="85" y="92" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">3000</text>
+        <text x="85" y="149" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">2000</text>
+        <text x="85" y="206" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">1000</text>
+        <text x="85" y="264" text-anchor="end" font-size="11" fill="var(--muted)" font-family="IBM Plex Mono, monospace">0</text>
+
+        <rect x="105" y="256.4" width="110" height="3.6" rx="2" fill="var(--s1)" opacity="0.55"/>
+        <text x="160" y="245" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">63.39亿元</text>
+        <text x="160" y="280" text-anchor="middle" font-size="12" fill="var(--ink-soft)">2025</text>
+
+        <rect x="265" y="223.4" width="110" height="36.6" rx="3" fill="var(--s1)" opacity="0.75"/>
+        <text x="320" y="212" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">640+亿元</text>
+        <text x="320" y="280" text-anchor="middle" font-size="12" fill="var(--ink-soft)">2030</text>
+
+        <rect x="425" y="31.4" width="110" height="228.6" rx="4" fill="var(--s1)"/>
+        <text x="480" y="20" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace">4000+亿元</text>
+        <text x="480" y="280" text-anchor="middle" font-size="12" fill="var(--ink-soft)">2035</text>
+      </svg>
+      <p class="chart-src">数据来源:高工产业研究院(GGII)《2025年人形机器人产业发展蓝皮书》,2030/2035年数值为区间下限。<a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener">查看原文 ↗</a></p>
+    </div>
+
+    <h3 class="sub">政策与产业阶段</h3>
+    <ul class="timeline">
+      <li><span class="tl-date mono">2025年12月</span><div class="tl-body"><b>工信部等八部门"AI+制造"专项行动<a class="tl-src" href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_01010414608a4226b30687773bb21bdf.html" target="_blank" rel="noopener">工信部官网↗</a></b><span>提出建设人形机器人中试基地、打造标杆产线。</span></div></li>
+      <li><span class="tl-date mono">2026年2月</span><div class="tl-body"><b>《人形机器人与具身智能标准体系(2026版)》正式发布<a class="tl-src" href="https://www.news.cn/20260228/c27e2dfdb0f4496494c7e4991f2e8c2f/c.html" target="_blank" rel="noopener">新华网↗</a></b><span>工信部人形机器人与具身智能标准化技术委员会发布;同期"十五五"规划建议将具身智能纳入未来产业体系<a class="tl-src" href="https://www.news.cn/20251119/e9cb9ce2aa934d4287ccf42231e79803/c.html" target="_blank" rel="noopener">相关报道↗</a>。</span></div></li>
+      <li><span class="tl-date mono">2026年6月</span><div class="tl-body"><b>工信部、国资委联合通知<a class="tl-src" href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_f291ccd3da4c47ce95741de63cc088e6.html" target="_blank" rel="noopener">工信部官网↗</a></b><span>明确到2026年底重点场景实现应用验证和常态部署,形成万台级落地能力。</span></div></li>
+      <li><span class="tl-date mono">2026年5月</span><div class="tl-body"><b>特斯拉Optimus小批量正式采购(PPA)</b><span>从送样验证阶段进入小批量正式采购。</span><span class="tl-tag">企业动态</span></div></li>
+      <li><span class="tl-date mono">2026年7–8月</span><div class="tl-body"><b>Optimus V3 弗里蒙特工厂投产</b><span>年内目标产量5万台。</span><span class="tl-tag">企业动态</span></div></li>
+      <li><span class="tl-date mono">2026年8月</span><div class="tl-body"><b>宇树科技启动询价申购<a class="tl-src" href="https://finance.sina.com.cn/wm/2026-05-26/doc-inhzevau9083919.shtml" target="_blank" rel="noopener">新浪财经↗</a></b><span>拟募资约42亿元、估值约420亿元,冲刺科创板"人形机器人第一股"。</span><span class="tl-tag">资本市场</span></div></li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:14px;">行业共识:2025年为"量产元年"(国内出货量约1.8万台,同比激增超650%<a class="src" href="https://news.qq.com/rain/a/20260104A05J2X00" target="_blank" rel="noopener">腾讯新闻↗</a>);2026年被称为"商业化元年",工信部预计中国人形机器人整机产量全年有望首次突破10万台。手上订单方面,优必选U1系列已获超1.1万台订单<a class="src" href="https://news.qq.com/rain/a/20260630V07G9P00" target="_blank" rel="noopener">腾讯新闻↗</a>,绿的谐波订单已排至2027年<a class="src" href="https://www.tmtpost.com/8052511.html" target="_blank" rel="noopener">钛媒体↗</a>。(注:网络流传的"埃斯顿在手订单超300亿元""锋龙股份在手订单超55亿元"两项数字,经核实缺乏权威一手来源、且与部分公开报道存在矛盾,本报告不予采用。)</p>
+
+    <h3 class="sub">应用场景商业化进度排序</h3>
+    <ol class="ranked" style="list-style:none;">
+      <li><span class="rank-n">01</span><div class="rank-body"><b>工业制造 · 最快</b><span>汽车、家电产线中的搬运、分拣、质检、螺栓拧紧,已实现小批量部署,渗透率领先。</span></div></li>
+      <li><span class="rank-n">02</span><div class="rank-body"><b>特种作业 / 巡检</b><span>电力巡检、化工安防等高危场景落地方案较成熟,渗透率约1.8%–3.2%。</span></div></li>
+      <li><span class="rank-n">03</span><div class="rank-body"><b>物流仓储</b><span>分拣、转运等环节加速渗透,整体规模仍偏小。</span></div></li>
+      <li><span class="rank-n">04</span><div class="rank-body"><b>家庭服务 · 最滞后</b><span>2026年上半年已有少量家用定位产品进入真实家庭完成叠衣、擦桌等任务,仍处早期示范阶段。</span></div></li>
+    </ol>
+
+    <details class="src">
+      <summary>本节补充参考(未逐条挂链的综合性报道)</summary>
+      <ul>
+        <li><a href="https://www.cls.cn/detail/2418480" target="_blank" rel="noopener">财联社 — 高盛人形机器人预测</a></li>
+        <li><a href="https://finance.sina.com.cn/stock/usstock/c/2026-06-24/doc-inienxzy3047124.shtml" target="_blank" rel="noopener">新浪财经 — 摩根士丹利中国销量上调(2026年6月)</a></li>
+        <li><a href="https://finance.sina.com.cn/roll/2025-04-10/doc-inesschw5935693.shtml" target="_blank" rel="noopener">新浪财经 — GGII《2025年人形机器人产业发展蓝皮书》</a></li>
+        <li><a href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_01010414608a4226b30687773bb21bdf.html" target="_blank" rel="noopener">工信部官网 — "人工智能+制造"专项行动实施意见</a></li>
+        <li><a href="https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_f291ccd3da4c47ce95741de63cc088e6.html" target="_blank" rel="noopener">工信部官网 — 人形机器人实景实训专项行动通知(2026年6月)</a></li>
+        <li><a href="https://news.qq.com/rain/a/20260104A05J2X00" target="_blank" rel="noopener">腾讯新闻 — 2025年出货量数据(转引GGII)</a></li>
+      </ul>
+    </details>
+  </section>
+
+  <!-- ================= SECTION 2 ================= -->
+  <section class="chapter" id="s2">
+    <div class="chapter-head"><span class="chapter-num">02</span><h2>重点企业与竞争格局</h2></div>
+    <p class="chapter-intro">中国阵营以整机快速迭代与价格下探跑通订单和资本市场;海外阵营依靠巨头绑定与高估值私募融资,技术上更强调端到端具身大模型。</p>
+
+    <p class="camp-label">海外阵营</p>
+    <div class="card-grid">
+      <div class="co-card">
+        <div class="co-head"><span class="co-name">Tesla Optimus</span><span class="co-badge">量产筹备</span></div>
+        <p class="co-pos">特斯拉"AI+机器人"战略核心</p>
+        <p>V3已在Fremont搭建新产线,173cm/57kg,22自由度灵巧手、AI5芯片,2026年5月进入小批量正式采购;马斯克坦言量产爬坡"极其缓慢",7月仍未正式投产。计划年内启动对外销售,目标价2–3万美元。</p>
+        <div class="src-row"><a class="card-src" href="https://electrek.co/2026/04/22/tesla-optimus-production-fremont-model-sx-line/" target="_blank" rel="noopener">Electrek ↗</a><a class="card-src" href="https://theaiinsider.tech/2026/07/25/musk-updates-progress-of-teslas-optimus-humanoid-robot-warns-of-long-and-flat-production-ramp/" target="_blank" rel="noopener">The AI Insider ↗</a></div>
+      </div>
+      <div class="co-card">
+        <div class="co-head"><span class="co-name">Figure AI</span><span class="co-badge">估值390亿美元</span></div>
+        <p class="co-pos">通用人形机器人,自研VLA大模型Helix</p>
+        <p>2025年9月C轮融资超10亿美元,Parkway Venture Capital领投,Brookfield、英伟达、英特尔资本跟投。得州"BotQ"产线在建,计划未来四年出货10万台。</p>
+        <div class="src-row"><a class="card-src" href="https://www.figure.ai/news/series-c" target="_blank" rel="noopener">Figure AI官方 ↗</a><a class="card-src" href="https://www.therobotreport.com/figure-ai-raises-1b-in-series-c-funding-toward-humanoid-robot-development/" target="_blank" rel="noopener">The Robot Report ↗</a></div>
+      </div>
+      <div class="co-card">
+        <div class="co-head"><span class="co-name">Boston Dynamics</span><span class="co-badge">现代汽车控股</span></div>
+        <p class="co-pos">Atlas,老牌机器人厂商</p>
+        <p>2026年CES发布量产版电动Atlas,产能已全部预订,首批交付现代Robotics Metaplant与Google DeepMind。现代计划自家工厂部署超2.5万台(2028年起)。</p>
+        <div class="src-row"><a class="card-src" href="https://www.engadget.com/big-tech/boston-dynamics-unveils-production-ready-version-of-atlas-robot-at-ces-2026-234047882.html" target="_blank" rel="noopener">Engadget ↗</a><a class="card-src" href="https://www.koreaherald.com/article/10741955" target="_blank" rel="noopener">Korea Herald ↗</a></div>
+      </div>
+      <div class="co-card">
+        <div class="co-head"><span class="co-name">Agility Robotics</span><span class="co-badge">2026年底上市</span></div>
+        <p class="co-pos">Digit,聚焦物流仓储场景</p>
+        <p>2026年6月宣布SPAC合并上市(隐含估值约25亿美元),纳斯达克代码AGLT。客户含Schaeffler、GXO、丰田加拿大、Mercado Libre,已签约多年期收入超3亿美元。</p>
+        <div class="src-row"><a class="card-src" href="https://www.geekwire.com/2026/digit-maker-agility-robotics-to-go-public-in-2-5b-deal-heres-what-the-filings-say-about-its-finances/" target="_blank" rel="noopener">GeekWire ↗</a></div>
+      </div>
+      <div class="co-card">
+        <div class="co-head"><span class="co-name">1X Technologies</span><span class="co-badge">家庭+产业双线</span></div>
+        <p class="co-pos">NEO,获OpenAI创投基金投资</p>
+        <p>2025年10月发布消费级NEO,5天获1万台预订(2万美元);2026年Hayward工厂全面量产,并与EQT协议2026–2030年向300余家被投企业供应最多1万台。</p>
+        <div class="src-row"><a class="card-src" href="https://techcrunch.com/2025/12/11/1x-struck-a-deal-to-send-its-home-humanoids-to-factories-and-warehouses/" target="_blank" rel="noopener">TechCrunch ↗</a><a class="card-src" href="https://www.forbes.com/sites/johnkoetsier/2026/04/30/1x-kicks-off-full-scale-production-of-humanoid-robot-neo/" target="_blank" rel="noopener">Forbes ↗</a></div>
+      </div>
+    </div>
+
+    <p class="camp-label">中国阵营</p>
+    <div class="card-grid">
+      <div class="co-card">
+        <div class="co-head"><span class="co-name">宇树科技 Unitree</span><span class="co-badge">科创板上市</span></div>
+        <p class="co-pos">四足机器人起家,创始人王兴兴持股23.82%</p>
+        <p>2026年8月19日上市,募资42.02亿元,"A股人形机器人第一股"。2025年人形机器人出货超5,500台、全球第一,营收17.08亿元。</p>
+        <div class="src-row"><a class="card-src" href="https://finance.sina.com.cn/wm/2026-05-26/doc-inhzevau9083919.shtml" target="_blank" rel="noopener">新浪财经 ↗</a><a class="card-src" href="https://robotscope.net/pulse/2026-08-02/unitree-ipo-countdown/" target="_blank" rel="noopener">RobotScope ↗</a></div>
+      </div>
+      <div class="co-card">
+        <div class="co-head"><span class="co-name">优必选 UBTech</span><span class="co-badge">港股上市</span></div>
+        <p class="co-pos">U1系列超仿生人形机器人</p>
+        <p>2026年6月发布U1系列(Lite 11.98万元、Pro 16.98万元、Ultra最高99万元),预售累计订单突破1.33万台,为2025全年销量的十倍以上,9月16日启动交付。</p>
+        <div class="src-row"><a class="card-src" href="http://www.xinhuanet.com/tech/20260701/3c549b1ded2e47a4894e5b982b8ebc09/c.html" target="_blank" rel="noopener">新华网 ↗</a><a class="card-src" href="https://www.tmtpost.com/8052511.html" target="_blank" rel="noopener">钛媒体 ↗</a></div>
+      </div>
+      <div class="co-card">
+        <div class="co-head"><span class="co-name">智元机器人 AgiBot</span><span class="co-badge">冲刺港股IPO</span></div>
+        <p class="co-pos">具身智能基座大模型GO-1</p>
+        <p>2025年获腾讯、京东、上汽等多轮融资,估值超200亿元;2026年启动赴港IPO,寻求约200亿美元估值。WAIC 2026发布远征A3 Ultra等5款新品。</p>
+        <div class="src-row"><a class="card-src" href="https://companies.caixin.com/m/2026-07-24/102467799.html" target="_blank" rel="noopener">财新 ↗</a><a class="card-src" href="https://www.jiemian.com/article/13845721.html" target="_blank" rel="noopener">界面新闻 ↗</a></div>
+      </div>
+      <div class="co-card">
+        <div class="co-head"><span class="co-name">傅利叶智能 Fourier</span><span class="co-badge">IPO静默期</span></div>
+        <p class="co-pos">医疗康复外骨骼切入具身智能</p>
+        <p>2025年完成E轮8亿元,全年融资约11亿元;2026年CES发布GR-3,主打情感陪伴交互;已更名股份有限公司,筹备IPO。</p>
+        <div class="src-row"><a class="card-src" href="https://www.aibangbots.com/a/4111" target="_blank" rel="noopener">艾邦机器人 ↗</a><a class="card-src" href="https://robotscope.net/companies/fourier-intelligence/" target="_blank" rel="noopener">RobotScope ↗</a></div>
+      </div>
+      <div class="co-card">
+        <div class="co-head"><span class="co-name">小鹏 / 小米机器人</span><span class="co-badge">整车厂跨界</span></div>
+        <p class="co-pos">从造车切入工业/商业人形机器人</p>
+        <p>小鹏第五代人形机器人IRON计划2026年内在广州量产基地量产;小米新一代机器人身高1.7米、66自由度,已在小米汽车工厂完成4个月产线实习,螺母上件成功率98%。</p>
+        <div class="src-row"><a class="card-src" href="https://finance.sina.com.cn/tech/digi/2026-08-19/doc-ininvwqt9357115.shtml" target="_blank" rel="noopener">新浪科技 ↗</a><a class="card-src" href="https://m.thepaper.cn/newsDetail_forward_30867386" target="_blank" rel="noopener">澎湃新闻 ↗</a></div>
+      </div>
+    </div>
+
+    <p style="color:var(--ink-soft);font-size:0.92rem;">2026年被业内普遍称为"量产元年":中国阵营在整机出货量和价格下探上暂时领先——宇树、优必选订单已排至2027年、价格下探至3万元级,并率先跑通资本市场;海外阵营则更依赖巨头绑定与高估值私募融资,技术路线上更强调VLA大模型与端到端具身智能,商业化节奏相对审慎但单体技术成熟度更高。特斯拉Optimus资金与声量最大,但实际量产进度落后于预期。整体来看,行业正从"实验室秀肌肉"转向"真实场景订单"竞争,工厂与物流场景率先规模化,家庭场景仍处早期导入阶段。</p>
+  </section>
+
+  <!-- ================= SECTION 3 ================= -->
+  <section class="chapter" id="s3">
+    <div class="chapter-head"><span class="chapter-num">03</span><h2>核心技术与产业链</h2></div>
+    <p class="chapter-intro">硬件BOM约占整机成本60%–70%,关节模组(电机+减速器+丝杠)是成本与技术壁垒最集中的环节;"大脑"层面则是VLA具身大模型的路线竞速。</p>
+
+    <div class="chart-card">
+      <h4>整机硬件成本结构(常见拆解口径)</h4>
+      <p class="chart-sub">精密减速器、伺服系统与控制系统三项合计占比超70%</p>
+      <svg viewBox="0 0 640 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="精密减速器36%,伺服系统24%,控制系统12%,其他28%">
+        <rect x="40" y="24" width="199.4" height="42" rx="4" fill="var(--s1)"/>
+        <rect x="241.4" y="24" width="133.0" height="42" fill="var(--s2)"/>
+        <rect x="376.4" y="24" width="66.5" height="42" fill="var(--s3)"/>
+        <rect x="444.9" y="24" width="155.1" height="42" rx="4" fill="var(--s4)"/>
+        <text x="139.7" y="49" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="IBM Plex Mono, monospace">36%</text>
+        <text x="307.9" y="49" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="IBM Plex Mono, monospace">24%</text>
+        <text x="409.6" y="49" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="IBM Plex Mono, monospace">12%</text>
+        <text x="522.4" y="49" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="IBM Plex Mono, monospace">28%</text>
+      </svg>
+      <div class="legend-row">
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--s1);"></span>精密减速器</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--s2);"></span>伺服系统(含电机)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--s3);"></span>控制系统</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:var(--s4);"></span>本体结构/传感器/电池等其他</div>
+      </div>
+      <p class="chart-src">数据来源:<a href="https://www.hangyan.co/charts/3569101223439107230" target="_blank" rel="noopener">小牛行研(2025年2月)↗</a>、<a href="https://www.tmtpost.com/8041415.html" target="_blank" rel="noopener">钛媒体产业链成本拆解↗</a>整理。另一常见口径显示关节模组整体约占整机成本50%,其中谐波减速器单项占比约15.6%<a class="src" href="https://www.sohu.com/a/1031719925_121124371" target="_blank" rel="noopener">搜狐↗</a>。</p>
+    </div>
+
+    <h3 class="sub">关键零部件与代表供应商</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>类别</th><th>代表企业</th><th>备注</th><th>来源</th></tr></thead>
+        <tbody>
+          <tr><td>无框力矩电机</td><td>鸣志电器 · 大族电机 · 步科</td><td>鸣志电器为空心杯电机全球龙头,单指电机成本约300美元(海外竞品约800美元)</td><td class="src-cell"><a href="https://www.aibangbots.com/a/1764" target="_blank" rel="noopener">艾邦↗</a></td></tr>
+          <tr><td>行星滚柱丝杠/直线执行器</td><td>拓普集团 · 三花智控</td><td>均为特斯拉Optimus独家供应商;拓普良率约99.2%,三花单机价值量约2.8万元</td><td class="src-cell"><a href="https://finance.ifeng.com/c/8uzPVYBVQgQ" target="_blank" rel="noopener">凤凰财经↗</a></td></tr>
+          <tr><td>谐波减速器</td><td>绿的谐波 · 双环传动</td><td>绿的谐波为国产龙头,深度绑定智元、优必选</td><td class="src-cell"><a href="https://finance.ifeng.com/c/8uzPVYBVQgQ" target="_blank" rel="noopener">凤凰财经↗</a></td></tr>
+          <tr><td>六维力传感器</td><td>中航电测 · 昊志机电 · 中鼎股份 · 柯力传感</td><td>昊志机电2025上半年机器人核心部件收入同比+127%</td><td class="src-cell"><a href="https://sensor.ofweek.com/2025-03/ART-81001-8120-30659617.html" target="_blank" rel="noopener">OFweek↗</a></td></tr>
+          <tr><td>灵巧手(国产"四小龙")</td><td>灵心巧手 · 因时机器人 · 灵巧智能 · 强脑科技</td><td>灵心巧手占全球高自由度灵巧手份额超80%,唯一月产千台企业</td><td class="src-cell"><a href="https://www.ofweek.com/ai/2025-06/ART-201700-8440-30664499.html" target="_blank" rel="noopener">OFweek↗</a></td></tr>
+          <tr><td>其他核心部件龙头</td><td>汇川技术 · 美的集团 · 埃斯顿 · 兆威机电</td><td>覆盖驱控、电机及精密传动</td><td class="src-cell"><a href="https://www.sina.cn/news/detail/5315923448955883.html" target="_blank" rel="noopener">新浪↗</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">"大脑"层技术路线</h3>
+    <div class="tech-grid">
+      <div class="tech-card"><b>智元 GO-1</b><p>2025年3月发布全球首个通用具身基座大模型,ViLLA(视觉-语言-潜动作)架构,可从人类视频学习并小样本泛化;9月GitHub开源。</p><a class="card-src" href="https://finance.sina.com.cn/wm/2025-03-13/doc-inepnchv1024230.shtml" target="_blank" rel="noopener">新浪财经 ↗</a></div>
+      <div class="tech-card"><b>银河通用</b><p>主推VLA具身大模型路线,2026年3月完成25亿元融资(国家大基金三期首次投资具身智能)。</p><a class="card-src" href="https://news.pedaily.cn/202603/561608.shtml" target="_blank" rel="noopener">投资界 ↗</a></div>
+      <div class="tech-card"><b>Google DeepMind</b><p>2025年3月推出Gemini Robotics与具身推理版Gemini Robotics-ER;6月发布支持端侧本地运行的On-Device版本。</p><a class="card-src" href="https://en.wikipedia.org/wiki/Gemini_Robotics" target="_blank" rel="noopener">Wikipedia ↗</a></div>
+      <div class="tech-card"><b>NVIDIA GR00T</b><p>GR00T N1及升级版N1.6,作为开放的人形机器人通用基础模型,已在真实双臂人形硬件上验证。</p><a class="card-src" href="https://developer.nvidia.com/blog/pretrained-to-imagine-fine-tuned-to-act-the-rise-of-world-action-models/" target="_blank" rel="noopener">NVIDIA Blog ↗</a></div>
+      <div class="tech-card"><b>Figure Helix</b><p>Figure 03搭载与OpenAI共研的端到端VLA系统,2026年1月推出Helix 02,以千万参数神经网络替代约10.9万行手工控制代码。</p><a class="card-src" href="https://eu.36kr.com/en/p/3476581554018438" target="_blank" rel="noopener">36氪 ↗</a></div>
+    </div>
+
+    <h3 class="sub">行业公认技术瓶颈</h3>
+    <div class="bottleneck-grid">
+      <div class="bn-item"><b>量产良率</b><span>国内整机企业超140家,能实现千台级稳定量产的不足10家;非头部核心关节良率普遍低于85%。</span> <a class="card-src" href="https://www.esmchina.com/news/14384.html" target="_blank" rel="noopener">国际电子商情 ↗</a></div>
+      <div class="bn-item"><b>灵巧手成本与可靠性</b><span>高端空心杯电机、主控芯片国产替代窗口预计还需3–5年;特斯拉Optimus曾因手部可靠性问题暂停迭代节奏。</span> <a class="card-src" href="https://www.tmtpost.com/8041415.html" target="_blank" rel="noopener">钛媒体 ↗</a></div>
+      <div class="bn-item"><b>续航</b><span>多数机型续航仅2–5小时,难以覆盖8小时工作班次。</span> <a class="card-src" href="https://zhuanlan.zhihu.com/p/2021882264091371211" target="_blank" rel="noopener">知乎 ↗</a></div>
+      <div class="bn-item"><b>数据与算力</b><span>高质量具身数据集稀缺,制约模型泛化与灵活操作能力提升。</span> <a class="card-src" href="https://zhuanlan.zhihu.com/p/2021882264091371211" target="_blank" rel="noopener">知乎 ↗</a></div>
+      <div class="bn-item"><b>精细操作</b><span>处理柔软、微小或不规则物体时仍显著逊于人手。</span> <a class="card-src" href="https://zhuanlan.zhihu.com/p/1997605413038866853" target="_blank" rel="noopener">知乎 ↗</a></div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 4 ================= -->
+  <section class="chapter" id="s4">
+    <div class="chapter-head"><span class="chapter-num">04</span><h2>投融资与二级市场</h2></div>
+    <p class="chapter-intro">一级市场融资持续加码,IPO窗口在中国率先打开;二级市场围绕产业链各环节形成"概念股"图谱。以下为事实性信息整理,不构成投资建议。</p>
+
+    <h3 class="sub">2025–2026年代表性融资事件</h3>
+    <ul class="timeline">
+      <li><span class="tl-date mono">2026.03</span><div class="tl-body"><b>银河通用 · 25亿元<a class="tl-src" href="https://news.pedaily.cn/202603/561608.shtml" target="_blank" rel="noopener">投资界↗</a></b><span>刷新国内具身智能单轮融资纪录,估值突破200亿元,国家大基金三期首次投资具身智能。</span></div></li>
+      <li><span class="tl-date mono">2026.04</span><div class="tl-body"><b>星动纪元 · 超2亿美元<a class="tl-src" href="https://caifuhao.eastmoney.com/news/20260202115308531336250" target="_blank" rel="noopener">东方财富↗</a></b><span>顺丰集团战略领投,红杉中国、IDG资本、中金资本跟投。</span></div></li>
+      <li><span class="tl-date mono">2026.04</span><div class="tl-body"><b>加速进化 · 近10亿元</b><span>北京高精尖产业基金、京国盛基金、华控基金联合领投。</span></div></li>
+      <li><span class="tl-date mono">2026.02</span><div class="tl-body"><b>逐际动力 · 2亿美元B轮</b><span>阿联酋磊石资本、东方富海、基石资本参投。</span></div></li>
+      <li><span class="tl-date mono">2025.09</span><div class="tl-body"><b>Figure AI · 超10亿美元C轮<a class="tl-src" href="https://www.therobotreport.com/figure-ai-raises-1b-in-series-c-funding-toward-humanoid-robot-development/" target="_blank" rel="noopener">The Robot Report↗</a></b><span>估值390亿美元,Parkway Venture Capital领投,Brookfield、英伟达、英特尔资本跟投。</span></div></li>
+      <li><span class="tl-date mono">2026.02</span><div class="tl-body"><b>Apptronik · 5.2亿美元B轮扩募<a class="tl-src" href="https://techfundingnews.com/top-humanoid-robot-startups-2026-funding/" target="_blank" rel="noopener">TechFundingNews↗</a></b><span>估值约55亿美元。</span></div></li>
+      <li><span class="tl-date mono">2026.06</span><div class="tl-body"><b>Neura Robotics(德国) · 最高14亿美元C轮<a class="tl-src" href="https://www.cnbc.com/2026/06/10/neura-robotics-funding-ai-humanoid-robots.html" target="_blank" rel="noopener">CNBC↗</a></b><span>Tether、高通、亚马逊、英伟达、博世参投,估值约70亿美元。</span></div></li>
+      <li><span class="tl-date mono">2026.07</span><div class="tl-body"><b>Humanoid(英国) · 1.52亿美元A轮<a class="tl-src" href="https://finance.yahoo.com/technology/ai/articles/humanoid-raises-152m-series-1-105703642.html" target="_blank" rel="noopener">Yahoo Finance↗</a></b><span>Prime Movers Lab领投,估值13.5亿美元,成为欧洲首家纯人形机器人独角兽。</span></div></li>
+    </ul>
+    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:14px;">2026年前两月中国人形机器人(含零部件)已披露18起融资,合计超130亿元;全年中国具身智能累计约88起融资、总额超200亿元。全球范围看,2026年机器人领域累计融资约558亿美元,其中人形机器人赛道约86亿美元<a class="src" href="https://valueaddvc.com/pulse/robotics-humanoid-funding-23-billion-2026" target="_blank" rel="noopener">Value Add VC↗</a>。</p>
+
+    <h3 class="sub">上市动态</h3>
+    <div class="ipo-grid">
+      <div class="ipo-card">
+        <div class="co-name">优必选 UBTech</div>
+        <div class="ipo-fig">09880.HK</div>
+        <p>2023年12月港股上市,IPO净募资约9.06亿港元;2024–2025年六次配股再融资约67.1亿港元。2026年9月股价约85.55港元,曾单日暴涨近90%,市值一度突破千亿元。</p>
+        <a class="card-src" href="https://www.cls.cn/detail/1558125" target="_blank" rel="noopener">财联社 ↗</a>&nbsp;<a class="card-src" href="https://www.aibang.com/a/34486" target="_blank" rel="noopener">艾邦 ↗</a>
+      </div>
+      <div class="ipo-card">
+        <div class="co-name">宇树科技</div>
+        <div class="ipo-fig">42.02亿元</div>
+        <p>科创板IPO进程迅速:3月受理、6月过会并提交注册、7月获同意注册、8月19日上市。营收从2023年1.59亿元增至2025年16.99亿元,2026年一季度净利润同比降52.55%。</p>
+        <a class="card-src" href="https://finance.sina.com.cn/wm/2026-07-06/doc-inifwmvs1837058.shtml" target="_blank" rel="noopener">新浪财经 ↗</a>&nbsp;<a class="card-src" href="https://www.bbtnews.com.cn/2026/0601/595009.shtml" target="_blank" rel="noopener">北京商报 ↗</a>
+      </div>
+      <div class="ipo-card">
+        <div class="co-name">智元机器人</div>
+        <div class="ipo-fig">约21亿元</div>
+        <p>收购上纬新材(688585)66.99%股权实现控制权变更,股价从约30亿元市值飙升至370亿元,2025年全年涨幅超1800%居A股之首;公司否认属严格意义"借壳上市"。</p>
+        <a class="card-src" href="https://www.36kr.com/p/3371814439719682" target="_blank" rel="noopener">36氪 ↗</a>
+      </div>
+    </div>
+    <p style="font-size:0.85rem;color:var(--ink-soft);margin-top:-14px;margin-bottom:32px;">行业普遍预期2026年为"具身智能IPO大年",A股与港股制度层面均在为机器人企业上市提供支持。</p>
+
+    <h3 class="sub">产业链概念股图谱</h3>
+    <div class="concept-grid">
+      <div class="concept-group"><h5>整机/系统集成 <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">埃斯顿</span><span class="chip">优必选</span></div></div>
+      <div class="concept-group"><h5>减速器 <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">绿的谐波</span><span class="chip">双环传动</span><span class="chip">昊志机电</span><span class="chip">中大力德</span><span class="chip">汉宇集团</span></div></div>
+      <div class="concept-group"><h5>执行器/丝杠 <a href="https://www.sina.cn/news/detail/5296811640095672.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">拓普集团</span><span class="chip">三花智控</span><span class="chip">五洲新春</span><span class="chip">贝斯特</span></div></div>
+      <div class="concept-group"><h5>传感器 <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">奥比中光</span><span class="chip">柯力传感</span><span class="chip">敏芯股份</span><span class="chip">汉威科技</span><span class="chip">安培龙</span></div></div>
+      <div class="concept-group"><h5>驱控/电机 <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">汇川技术</span><span class="chip">鸣志电器</span><span class="chip">雷赛智能</span><span class="chip">步科股份</span><span class="chip">卧龙电驱</span></div></div>
+      <div class="concept-group"><h5>AI芯片/大脑侧 <a href="https://www.sina.cn/news/detail/5315572935688815.html" target="_blank" rel="noopener">↗</a></h5><div class="chips"><span class="chip">中科创达</span><span class="chip">科大讯飞</span><span class="chip">凌云光</span></div></div>
+      <div class="concept-group"><h5>美股相关</h5><div class="chips"><span class="chip">特斯拉</span><span class="chip">英伟达</span><span class="chip">Figure AI(未上市)</span><span class="chip">Apptronik(未上市)</span></div></div>
+    </div>
+
+    <h3 class="sub">机构最新研判</h3>
+    <div class="quote-grid">
+      <div class="quote-card"><p>AI投资主线正从算力转向终端应用,人形机器人为下阶段核心增长引擎;预计2027年全球出货量7.6万台,2032年升至50.2万台,大规模商业化落地窗口在2027–2029年。</p><cite><a href="https://view.inews.qq.com/a/20260811A083PW00" target="_blank" rel="noopener">高盛,2026年8月 ↗</a></cite></div>
+      <div class="quote-card"><p>人形机器人半导体市场规模预计2045年达3,050亿美元;中国有望成为最大单一市场,约占全球30%。</p><cite><a href="https://www.cls.cn/detail/2216817" target="_blank" rel="noopener">摩根士丹利 ↗</a></cite></div>
+      <div class="quote-card"><p>2026年为行业"量产元年",重点关注特斯拉Optimus V3量产验证节奏及国内供应链放量;建议聚焦技术壁垒高、成本与产能扩张壁垒明显的细分龙头,包括边缘SOC芯片、灵巧手、执行器、精密传感器。</p><cite><a href="https://www.stcn.com/article/detail/3634693.html" target="_blank" rel="noopener">中信证券/中信建投,2026年 ↗</a></cite></div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="disclaimer">本报告基于公开信息由多方来源整理汇总,各机构统计口径、时间范围不完全一致,部分预测数字存在较大分歧,已在正文中并列标注来源;网络流传但缺乏权威一手来源或与公开报道相矛盾的数字(如部分企业在手订单金额)已在文中注明未采用。内容仅供行业研究参考,不构成任何投资建议。资料整理截至2026年9月8日,后续进展请以官方发布为准。</p>
+    <a class="back-top" href="#s1">回到顶部 ↑</a>
+  </footer>
+
+</div>
