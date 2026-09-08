@@ -95,16 +95,19 @@
   }
   .topbar-inner{
     max-width:960px;margin:0 auto;padding:12px 24px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .topbar-left{
     display:flex;align-items:center;gap:16px;
-    overflow-x:auto;
+    overflow-x:auto;flex:1;min-width:0;
   }
   .topbar-brand{
     font-family:"Noto Serif SC",serif;font-weight:700;font-size:0.95rem;
     white-space:nowrap;color:var(--ink);
-    display:flex;align-items:center;gap:8px;
+    display:flex;align-items:center;gap:8px;flex:none;
   }
   .topbar-brand .dot{width:8px;height:8px;border-radius:2px;background:var(--accent);transform:rotate(45deg);flex:none;}
-  .topbar-nav{display:flex;gap:4px;white-space:nowrap;}
+  .topbar-nav{display:flex;gap:4px;white-space:nowrap;flex:none;}
   .topbar-nav a{
     font-size:0.82rem;color:var(--ink-soft);text-decoration:none;
     padding:6px 10px;border-radius:6px;font-weight:500;
@@ -292,13 +295,15 @@
 
   <div class="topbar">
     <div class="topbar-inner">
-      <div class="topbar-brand"><span class="dot"></span><span class="zh">人形机器人产业透视</span><span class="en" hidden>Humanoid Robotics Industry Report</span></div>
-      <nav class="topbar-nav">
-        <a href="#s1"><span class="zh">规模</span><span class="en" hidden>Market</span></a>
-        <a href="#s2"><span class="zh">企业</span><span class="en" hidden>Players</span></a>
-        <a href="#s3"><span class="zh">技术</span><span class="en" hidden>Tech</span></a>
-        <a href="#s4"><span class="zh">资本</span><span class="en" hidden>Capital</span></a>
-      </nav>
+      <div class="topbar-left">
+        <div class="topbar-brand"><span class="dot"></span><span class="zh">人形机器人产业透视</span><span class="en" hidden>Humanoid Robotics Industry Report</span></div>
+        <nav class="topbar-nav">
+          <a href="#s1"><span class="zh">规模</span><span class="en" hidden>Market</span></a>
+          <a href="#s2"><span class="zh">企业</span><span class="en" hidden>Players</span></a>
+          <a href="#s3"><span class="zh">技术</span><span class="en" hidden>Tech</span></a>
+          <a href="#s4"><span class="zh">资本</span><span class="en" hidden>Capital</span></a>
+        </nav>
+      </div>
       <div class="lang-switch" role="group" aria-label="Language / 语言">
         <button type="button" data-lang="en">EN</button>
         <button type="button" data-lang="zh" class="active">中文</button>
