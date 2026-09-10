@@ -335,6 +335,7 @@
     </div>
     <div class="meta-row">
       <span class="zh">资料整理日期 <b>2026年9月8日</b></span><span class="en" hidden>Compiled <b>Sep 8, 2026</b></span>
+      <span class="zh">最后更新 <b id="last-updated-zh">—</b></span><span class="en" hidden>Last updated <b id="last-updated-en">—</b></span>
       <span class="zh">覆盖周期 <b>2025 – 2026年8月</b></span><span class="en" hidden>Coverage <b>2025 – Aug 2026</b></span>
       <span class="zh">覆盖范围 <b>中国 · 美国 · 全球</b></span><span class="en" hidden>Scope <b>China · US · Global</b></span>
       <span class="zh">性质 <b>行业研究素材,非投资建议</b></span><span class="en" hidden>Nature <b>Research material, not investment advice</b></span>
@@ -716,6 +717,21 @@
   var btns = doc.querySelectorAll('.lang-switch button');
   for(var i=0;i<btns.length;i++){
     btns[i].addEventListener('click', function(){ apply(this.getAttribute('data-lang')); });
+  }
+
+  var firstFeedDate = doc.querySelector('#feed-list li .feed-date');
+  if(firstFeedDate){
+    var parts = firstFeedDate.textContent.trim().split('.');
+    var m = parseInt(parts[0], 10), d = parseInt(parts[1], 10);
+    if(m && d){
+      var zhOut = doc.querySelector('#last-updated-zh');
+      var enOut = doc.querySelector('#last-updated-en');
+      if(zhOut){ zhOut.textContent = m + '月' + d + '日'; }
+      if(enOut){
+        var monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        enOut.textContent = monthNames[m-1] + ' ' + d;
+      }
+    }
   }
 })();
 </script>
